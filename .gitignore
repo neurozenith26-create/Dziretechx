@@ -1,0 +1,6 @@
+node_modules/
+.claude/
+*.pdf
+nul
+dist/
+.DS_Store

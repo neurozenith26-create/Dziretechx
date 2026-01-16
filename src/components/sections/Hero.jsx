@@ -1,0 +1,208 @@
+import { motion } from 'framer-motion';
+import { ChevronRight } from 'lucide-react';
+import { Button } from '../ui/Button';
+import { ParticleField } from '../animations/ParticleField';
+import { CloudIllustration } from '../illustrations';
+import { cn } from '../../utils/cn';
+import { fadeInUp, staggerContainer, scaleIn } from '../../utils/animations';
+import { companyInfo } from '../../data/companyInfo';
+
+const AnimatedWord = ({ children, index }) => (
+  <motion.span
+    className="inline-block"
+    initial={{ opacity: 0, y: 50, rotateX: -90 }}
+    animate={{ opacity: 1, y: 0, rotateX: 0 }}
+    transition={{
+      duration: 0.8,
+      delay: index * 0.1,
+      ease: [0.25, 0.46, 0.45, 0.94],
+    }}
+  >
+    {children}
+  </motion.span>
+);
+
+export const Hero = () => {
+  const headlineWords = ['Innovating', 'the', 'Future'];
+  const sublineWords = ['with', 'Cloud', '&', 'AI'];
+
+  return (
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-surface-dark">
+      {/* Particle Background */}
+      <ParticleField
+        particleCount={200}
+        colors={['#1E5FBB', '#00D4FF', '#8B5CF6']}
+        connectionDistance={120}
+        mouseRadius={180}
+        speed={0.4}
+      />
+
+      {/* Gradient Overlays */}
+      <div className="absolute inset-0 bg-gradient-to-b from-surface-dark/50 via-transparent to-surface-dark pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-r from-brand-900/20 via-transparent to-accent-purple/10 pointer-events-none" />
+
+      {/* Grid Pattern Overlay */}
+      <div
+        className="absolute inset-0 opacity-[0.02] pointer-events-none"
+        style={{
+          backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+                            linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
+          backgroundSize: '50px 50px',
+        }}
+      />
+
+      {/* Cloud Illustration - Desktop Only */}
+      <motion.div
+        className="absolute right-0 top-1/2 -translate-y-1/2 w-[45%] h-[70%] hidden xl:block pointer-events-none"
+        initial={{ opacity: 0, x: 100 }}
+        animate={{ opacity: 0.8, x: 0 }}
+        transition={{ duration: 1.2, delay: 0.5 }}
+      >
+        <CloudIllustration className="w-full h-full opacity-60" />
+      </motion.div>
+
+      {/* Content */}
+      <div className="relative z-10 container-custom text-center xl:text-left pt-20 md:pt-24">
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          animate="visible"
+          className="max-w-5xl mx-auto xl:mx-0 xl:max-w-3xl"
+        >
+          {/* Badge */}
+          <motion.div variants={scaleIn} className="mb-6 sm:mb-8">
+            <div className="inline-flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm">
+              <div className="relative w-6 h-6 sm:w-8 sm:h-8">
+                <svg viewBox="0 0 40 40" className="w-full h-full">
+                  <defs>
+                    <linearGradient id="heroLogoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#1E5FBB" />
+                      <stop offset="100%" stopColor="#00D4FF" />
+                    </linearGradient>
+                  </defs>
+                  <motion.path
+                    d="M20 4 L36 12 L36 28 L20 36 L4 28 L4 12 Z"
+                    fill="none"
+                    stroke="url(#heroLogoGradient)"
+                    strokeWidth="2"
+                    initial={{ pathLength: 0 }}
+                    animate={{ pathLength: 1 }}
+                    transition={{ duration: 2, ease: 'easeInOut' }}
+                  />
+                  <motion.path
+                    d="M20 4 L20 20 M20 20 L36 12 M20 20 L4 12"
+                    fill="none"
+                    stroke="url(#heroLogoGradient)"
+                    strokeWidth="2"
+                    initial={{ pathLength: 0 }}
+                    animate={{ pathLength: 1 }}
+                    transition={{ duration: 2, delay: 0.5, ease: 'easeInOut' }}
+                  />
+                </svg>
+              </div>
+              <span className="text-xs sm:text-sm font-medium text-gray-300">
+                {companyInfo.shortName} Solutions
+              </span>
+            </div>
+          </motion.div>
+
+          {/* Main Headline */}
+          <div className="mb-4 overflow-hidden px-2 sm:px-0">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-display font-bold tracking-tight text-white leading-[1.1]">
+              <span className="flex flex-wrap justify-center xl:justify-start gap-x-2 sm:gap-x-4">
+                {headlineWords.map((word, index) => (
+                  <AnimatedWord key={index} index={index}>
+                    {word}
+                  </AnimatedWord>
+                ))}
+              </span>
+            </h1>
+          </div>
+
+          {/* Gradient Subline */}
+          <div className="mb-6 sm:mb-8 overflow-hidden px-2 sm:px-0">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-display font-bold tracking-tight leading-[1.1]">
+              <span className="flex flex-wrap justify-center xl:justify-start gap-x-2 sm:gap-x-4">
+                {sublineWords.map((word, index) => (
+                  <AnimatedWord key={index} index={index + headlineWords.length}>
+                    <span
+                      className={cn(
+                        word === 'Cloud' && 'text-accent-cyan',
+                        word === 'AI' && 'text-accent-purple',
+                        (word === 'with' || word === '&') && 'text-gray-400'
+                      )}
+                    >
+                      {word}
+                    </span>
+                  </AnimatedWord>
+                ))}
+              </span>
+            </h2>
+          </div>
+
+          {/* Description */}
+          <motion.p
+            variants={fadeInUp}
+            className="max-w-2xl mx-auto xl:mx-0 text-lg md:text-xl text-gray-400 mb-10 leading-relaxed"
+          >
+            Enterprise-grade cloud solutions and AI-driven innovations.
+            Building scalable, secure, and intelligent systems that transform
+            your business.
+          </motion.p>
+
+          {/* CTAs */}
+          <motion.div
+            variants={fadeInUp}
+            className="flex flex-col sm:flex-row items-center justify-center xl:justify-start gap-4"
+          >
+            <Button
+              variant="glow"
+              size="lg"
+              onClick={() => document.querySelector('#capabilities')?.scrollIntoView({ behavior: 'smooth' })}
+              icon={ChevronRight}
+              iconPosition="right"
+            >
+              Explore Solutions
+            </Button>
+            <Button
+              variant="outline"
+              size="lg"
+              onClick={() => document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' })}
+              className="border-white/20 text-white hover:bg-white/10 hover:border-white/30"
+            >
+              Contact Us
+            </Button>
+          </motion.div>
+
+          {/* Stats Preview */}
+          <motion.div
+            variants={fadeInUp}
+            className="mt-12 sm:mt-16 grid grid-cols-3 gap-4 sm:gap-8 max-w-lg mx-auto xl:mx-0 px-4 sm:px-0"
+          >
+            {[
+              { value: '15+', label: 'Years', subLabel: 'Experience' },
+              { value: '7+', label: 'Industries', subLabel: 'Served' },
+              { value: '60%', label: 'Cost', subLabel: 'Reduction' },
+            ].map((stat, index) => (
+              <div key={index} className="text-center">
+                <div className="text-xl sm:text-2xl md:text-3xl font-display font-bold text-white">
+                  {stat.value}
+                </div>
+                <div className="text-[10px] sm:text-xs md:text-sm text-gray-500 mt-1 leading-tight">
+                  <span className="block sm:inline">{stat.label}</span>
+                  <span className="hidden sm:inline"> </span>
+                  <span className="block sm:inline">{stat.subLabel}</span>
+                </div>
+              </div>
+            ))}
+          </motion.div>
+        </motion.div>
+      </div>
+
+      {/* Bottom gradient fade */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-surface-light dark:from-surface-dark to-transparent pointer-events-none" />
+    </section>
+  );
+};
+
+export default Hero;
