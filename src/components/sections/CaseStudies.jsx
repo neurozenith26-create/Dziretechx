@@ -63,10 +63,10 @@ const CaseStudyCard = ({ study, isActive }) => {
   return (
     <motion.div
       layout
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.9 }}
-      transition={{ duration: 0.4 }}
+      initial={{ opacity: 0, x: 50, scale: 0.95 }}
+      animate={{ opacity: 1, x: 0, scale: 1 }}
+      exit={{ opacity: 0, x: -50, scale: 0.95 }}
+      transition={{ duration: 0.5, ease: 'easeInOut' }}
       className="w-full h-full group"
     >
       <GlassCard
@@ -156,7 +156,12 @@ const CaseStudyCard = ({ study, isActive }) => {
 export const CaseStudies = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [visibleCount, setVisibleCount] = useState(3);
+  const [isPaused, setIsPaused] = useState(false);
   const containerRef = useRef(null);
+  const autoPlayRef = useRef(null);
+
+  // Auto-scroll interval (2.5 seconds)
+  const AUTO_SCROLL_INTERVAL = 2500;
 
   // Update visible count based on screen size
   useEffect(() => {
@@ -175,12 +180,40 @@ export const CaseStudies = () => {
     return () => window.removeEventListener('resize', updateVisibleCount);
   }, []);
 
+  // Auto-scroll functionality
+  useEffect(() => {
+    if (!isPaused) {
+      autoPlayRef.current = setInterval(() => {
+        setActiveIndex((prev) => (prev + 1) % caseStudies.length);
+      }, AUTO_SCROLL_INTERVAL);
+    }
+
+    return () => {
+      if (autoPlayRef.current) {
+        clearInterval(autoPlayRef.current);
+      }
+    };
+  }, [isPaused]);
+
+  // Pause auto-scroll on user interaction, resume after delay
+  const handleUserInteraction = () => {
+    setIsPaused(true);
+    setTimeout(() => setIsPaused(false), 8000); // Resume after 8 seconds of no interaction
+  };
+
   const nextSlide = () => {
+    handleUserInteraction();
     setActiveIndex((prev) => (prev + 1) % caseStudies.length);
   };
 
   const prevSlide = () => {
+    handleUserInteraction();
     setActiveIndex((prev) => (prev - 1 + caseStudies.length) % caseStudies.length);
+  };
+
+  const goToSlide = (index) => {
+    handleUserInteraction();
+    setActiveIndex(index);
   };
 
   // Get visible case studies with circular wrapping
@@ -206,7 +239,13 @@ export const CaseStudies = () => {
         />
 
         {/* Carousel Container */}
-        <div className="relative">
+        <div
+          className="relative"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+          onTouchStart={() => setIsPaused(true)}
+          onTouchEnd={() => setIsPaused(false)}
+        >
           {/* Navigation Buttons - Desktop */}
           <div className="absolute -left-4 top-1/2 -translate-y-1/2 z-10 hidden lg:block">
             <motion.button
@@ -267,21 +306,35 @@ export const CaseStudies = () => {
             </motion.button>
           </div>
 
-          {/* Pagination Dots */}
-          <div className="flex justify-center gap-2 mt-6 sm:mt-8">
+          {/* Pagination Dots with Progress Indicator */}
+          <div className="flex justify-center items-center gap-2 mt-6 sm:mt-8">
             {caseStudies.map((_, index) => (
               <motion.button
                 key={index}
-                onClick={() => setActiveIndex(index)}
+                onClick={() => goToSlide(index)}
                 className={cn(
-                  'h-2 rounded-full transition-all duration-300',
+                  'h-2 rounded-full transition-all duration-300 relative overflow-hidden',
                   index === activeIndex
-                    ? 'w-6 sm:w-8 bg-brand-500'
+                    ? 'w-6 sm:w-8 bg-brand-500/30'
                     : 'w-2 bg-gray-300 dark:bg-gray-600 hover:bg-brand-400'
                 )}
                 whileHover={{ scale: 1.2 }}
                 whileTap={{ scale: 0.9 }}
-              />
+              >
+                {/* Progress bar for active dot */}
+                {index === activeIndex && !isPaused && (
+                  <motion.div
+                    className="absolute inset-0 bg-brand-500 rounded-full origin-left"
+                    initial={{ scaleX: 0 }}
+                    animate={{ scaleX: 1 }}
+                    transition={{ duration: AUTO_SCROLL_INTERVAL / 1000, ease: 'linear' }}
+                    key={activeIndex}
+                  />
+                )}
+                {index === activeIndex && isPaused && (
+                  <div className="absolute inset-0 bg-brand-500 rounded-full" />
+                )}
+              </motion.button>
             ))}
           </div>
         </div>

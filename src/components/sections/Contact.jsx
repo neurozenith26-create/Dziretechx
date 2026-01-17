@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { Send, User, Mail, Building2, MessageSquare, CheckCircle2, Loader2 } from 'lucide-react';
+import { Send, User, Mail, Building2, MessageSquare, CheckCircle2, Loader2, AlertCircle } from 'lucide-react';
 import { SectionHeading } from '../ui/SectionHeading';
 import { GradientBorderCard } from '../ui/GlassCard';
 import { Button } from '../ui/Button';
@@ -8,6 +8,30 @@ import { cn } from '../../utils/cn';
 import { fadeInUp, fadeInLeft, fadeInRight, staggerContainer } from '../../utils/animations';
 import { companyInfo } from '../../data/companyInfo';
 import { DotsPattern } from '../illustrations';
+import { submitContactForm } from '../../lib/supabase';
+
+// Google Apps Script URL for email notifications
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzOASXUFleM-mXyKmDZ4QPn15JPWmZOOp7MuGzqfh6gO45VdUy_No5Td8YoZg7l4H5swA/exec';
+
+// Function to send email notification
+const sendEmailNotification = (formData) => {
+  try {
+    // Create URL with query parameters
+    const params = new URLSearchParams({
+      name: formData.name,
+      email: formData.email,
+      company: formData.company || '',
+      message: formData.message,
+      _t: Date.now(), // Prevent browser caching
+    });
+
+    // Use an image request to bypass CORS (reliable method)
+    const img = new Image();
+    img.src = `${GOOGLE_SCRIPT_URL}?${params.toString()}`;
+  } catch (error) {
+    console.error('Email notification failed:', error);
+  }
+};
 
 const InputField = ({ icon: Icon, label, type = 'text', placeholder, value, onChange, error, ...props }) => (
   <div className="space-y-2">
@@ -79,6 +103,8 @@ export const Contact = () => {
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState('');
+  const emailSentRef = useRef(false); // Prevent double email send
 
   const validateForm = () => {
     const newErrors = {};
@@ -98,16 +124,37 @@ export const Contact = () => {
     if (!validateForm()) return;
 
     setIsSubmitting(true);
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    setIsSubmitting(false);
-    setIsSubmitted(true);
+    setSubmitError('');
 
-    // Reset form after showing success
-    setTimeout(() => {
-      setFormData({ name: '', email: '', company: '', message: '' });
-      setIsSubmitted(false);
-    }, 3000);
+    try {
+      const { data, error } = await submitContactForm(formData);
+
+      if (error) {
+        setSubmitError(error.message || 'Failed to send message. Please try again.');
+        setIsSubmitting(false);
+        return;
+      }
+
+      // Send email notification (runs in background, doesn't block)
+      // Use ref to prevent double send in React Strict Mode
+      if (!emailSentRef.current) {
+        emailSentRef.current = true;
+        sendEmailNotification(formData);
+      }
+
+      setIsSubmitting(false);
+      setIsSubmitted(true);
+
+      // Reset form after showing success
+      setTimeout(() => {
+        setFormData({ name: '', email: '', company: '', message: '' });
+        setIsSubmitted(false);
+        emailSentRef.current = false; // Reset for next submission
+      }, 3000);
+    } catch (err) {
+      setSubmitError('An unexpected error occurred. Please try again.');
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (field) => (e) => {
@@ -245,6 +292,16 @@ export const Contact = () => {
                 </motion.div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+                  {submitError && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="flex items-center gap-3 p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-500 dark:text-red-400"
+                    >
+                      <AlertCircle className="w-5 h-5 flex-shrink-0" />
+                      <p className="text-sm">{submitError}</p>
+                    </motion.div>
+                  )}
                   <div className="grid sm:grid-cols-2 gap-4 sm:gap-6">
                     <InputField
                       icon={User}

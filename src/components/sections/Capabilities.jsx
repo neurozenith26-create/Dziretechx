@@ -7,6 +7,9 @@ import { fadeInUp, staggerContainer, cardReveal } from '../../utils/animations';
 import { capabilities } from '../../data/capabilities';
 import { CloudIcon, AIBrainIcon, AgentIcon, EnterpriseIcon } from '../illustrations';
 
+// AI Brain image path (served from public folder)
+const aiBrainImage = '/Images/Gemini_Generated_Image_kd95urkd95urkd95.png';
+
 const iconMap = {
   Cloud,
   Brain,
@@ -84,6 +87,18 @@ const CapabilityCard = ({ capability, index }) => {
           )}>
             <Illustration size={capability.size === 'large' ? 180 : capability.size === 'wide' ? 140 : 120} />
           </div>
+
+          {/* AI Brain Image - Only for AI Strategy card (Brain icon) */}
+          {capability.icon === 'Brain' && (
+            <div className="absolute inset-0 overflow-hidden rounded-2xl pointer-events-none">
+              <img
+                src={aiBrainImage}
+                alt=""
+                className="absolute top-0 right-0 w-full h-full object-cover opacity-[0.08] group-hover:opacity-[0.15] transition-opacity duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-white dark:to-surface-dark-100" />
+            </div>
+          )}
 
           {/* Header */}
           <div className="flex items-start justify-between mb-6 relative z-10">

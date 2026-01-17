@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
@@ -10,8 +11,11 @@ import { CaseStudies } from './components/sections/CaseStudies';
 import { WhyDZ2Cloud } from './components/sections/WhyDZ2Cloud';
 import { CallToAction } from './components/sections/CallToAction';
 import { Contact } from './components/sections/Contact';
+import { Login } from './admin/pages/Login';
+import { Dashboard } from './admin/pages/Dashboard';
 
-function App() {
+// Main Website Component
+const MainSite = () => {
   return (
     <div className="relative min-h-screen bg-surface-light dark:bg-surface-dark transition-colors duration-300">
       {/* Navigation */}
@@ -36,7 +40,7 @@ function App() {
       <ScrollToTop />
     </div>
   );
-}
+};
 
 // Scroll to Top Component
 const ScrollToTop = () => {
@@ -88,5 +92,20 @@ const ScrollToTop = () => {
     </AnimatePresence>
   );
 };
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        {/* Main Website */}
+        <Route path="/" element={<MainSite />} />
+
+        {/* Admin Routes */}
+        <Route path="/admin" element={<Login />} />
+        <Route path="/admin/dashboard" element={<Dashboard />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
 
 export default App;

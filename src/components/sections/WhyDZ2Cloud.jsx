@@ -6,6 +6,9 @@ import { cn } from '../../utils/cn';
 import { fadeInUp, staggerContainer, scaleIn } from '../../utils/animations';
 import { whyUsData } from '../../data/companyInfo';
 
+// Server growth image path (served from public folder)
+const serverGrowthImage = '/Images/Gemini_Generated_Image_kd95urkd95urkd95 (1).png';
+
 const iconMap = {
   Briefcase,
   Lightbulb,
@@ -64,6 +67,27 @@ const WhyUsCard = ({ item, index }) => {
 export const WhyDZ2Cloud = () => {
   return (
     <section id="why-us" className="relative section-padding overflow-hidden">
+      {/* Background Server Growth Image - Desktop Only */}
+      <div className="absolute inset-0 hidden lg:flex items-center justify-center pointer-events-none overflow-hidden">
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1 }}
+          className="relative w-full h-full max-w-4xl"
+        >
+          <img
+            src={serverGrowthImage}
+            alt=""
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-auto object-contain opacity-[0.06] dark:opacity-[0.1] blur-[1px]"
+          />
+          {/* Radial fade overlay */}
+          <div className="absolute inset-0 bg-radial-fade pointer-events-none" style={{
+            background: 'radial-gradient(circle at center, transparent 0%, var(--tw-gradient-from) 70%)'
+          }} />
+        </motion.div>
+      </div>
+
       {/* Concentric Circles Background */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
         {[1, 2, 3, 4].map((ring) => (

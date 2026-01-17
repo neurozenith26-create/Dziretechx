@@ -2,10 +2,12 @@ import { motion } from 'framer-motion';
 import { ChevronRight } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { ParticleField } from '../animations/ParticleField';
-import { CloudIllustration } from '../illustrations';
 import { cn } from '../../utils/cn';
 import { fadeInUp, staggerContainer, scaleIn } from '../../utils/animations';
 import { companyInfo } from '../../data/companyInfo';
+
+// Hero video path (served from public folder)
+const heroVideo = '/Images/Video_Generation_Successful.mp4';
 
 const AnimatedWord = ({ children, index }) => (
   <motion.span
@@ -51,14 +53,27 @@ export const Hero = () => {
         }}
       />
 
-      {/* Cloud Illustration - Desktop Only */}
+      {/* Hero Video - Desktop Only (xl+) */}
       <motion.div
-        className="absolute right-0 top-1/2 -translate-y-1/2 w-[45%] h-[70%] hidden xl:block pointer-events-none"
-        initial={{ opacity: 0, x: 100 }}
-        animate={{ opacity: 0.8, x: 0 }}
-        transition={{ duration: 1.2, delay: 0.5 }}
+        className="absolute right-8 xl:right-12 2xl:right-20 top-[38%] -translate-y-1/2 w-[42%] max-w-[580px] hidden xl:block pointer-events-none"
+        initial={{ opacity: 0, x: 100, scale: 0.9 }}
+        animate={{ opacity: 1, x: 0, scale: 1 }}
+        transition={{ duration: 1.2, delay: 0.5, ease: 'easeOut' }}
       >
-        <CloudIllustration className="w-full h-full opacity-60" />
+        {/* Glassmorphism container */}
+        <div className="relative p-3 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 shadow-2xl">
+          {/* Glow effect behind image */}
+          <div className="absolute -inset-4 bg-gradient-to-r from-brand-500/20 via-accent-cyan/20 to-accent-purple/20 rounded-3xl blur-2xl opacity-60" />
+
+          <video
+            src={heroVideo}
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="relative w-full h-auto object-cover rounded-xl shadow-lg"
+          />
+        </div>
       </motion.div>
 
       {/* Content */}
@@ -67,7 +82,7 @@ export const Hero = () => {
           variants={staggerContainer}
           initial="hidden"
           animate="visible"
-          className="max-w-5xl mx-auto xl:mx-0 xl:max-w-3xl"
+          className="max-w-5xl mx-auto xl:mx-0 xl:max-w-[55%]"
         >
           {/* Badge */}
           <motion.div variants={scaleIn} className="mb-6 sm:mb-8">
@@ -172,6 +187,28 @@ export const Hero = () => {
             >
               Contact Us
             </Button>
+          </motion.div>
+
+          {/* Mobile/Tablet Hero Image */}
+          <motion.div
+            variants={fadeInUp}
+            className="mt-8 sm:mt-10 xl:hidden"
+          >
+            <div className="relative max-w-sm mx-auto">
+              {/* Glow effect */}
+              <div className="absolute -inset-4 bg-gradient-to-r from-brand-500/20 via-accent-cyan/20 to-accent-purple/20 rounded-3xl blur-2xl opacity-50" />
+
+              <div className="relative p-2 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 shadow-xl">
+                <video
+                  src={heroVideo}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="w-full h-auto object-cover rounded-xl"
+                />
+              </div>
+            </div>
           </motion.div>
 
           {/* Stats Preview */}
