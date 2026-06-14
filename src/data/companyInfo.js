@@ -76,7 +76,7 @@ export const teamFounder = {
   name: '',
   role: 'Founder & CEO',
   focus: 'Driving the vision and strategy behind Dzire Techx’s cloud & AI solutions.',
-  image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600&h=600&fit=crop&crop=faces&q=80',
+  image: '/Images/team/founder.jpg',
 };
 
 export const teamMembers = [
@@ -84,42 +84,42 @@ export const teamMembers = [
     name: '',
     role: 'Senior AI Architect',
     focus: 'Designs enterprise-scale, secure AI & cloud architecture.',
-    image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=500&h=500&fit=crop&crop=faces&q=80',
+    image: '/Images/team/senior-architect-1.jpg',
   },
   {
     name: '',
     role: 'Senior AI Architect',
     focus: 'Leads system design and intelligent automation strategy.',
-    image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=500&h=500&fit=crop&crop=faces&q=80',
+    image: '/Images/team/senior-architect-2.jpg',
   },
   {
     name: '',
     role: 'AI Architect',
     focus: 'Builds scalable, intelligent systems across platforms.',
-    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&h=500&fit=crop&crop=faces&q=80',
+    image: '/Images/team/architect-1.jpg',
   },
   {
     name: '',
     role: 'AI Architect',
     focus: 'Integrates AI with cloud-native and legacy systems.',
-    image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=500&h=500&fit=crop&crop=faces&q=80',
+    image: '/Images/team/architect-2.jpg',
   },
   {
     name: '',
     role: 'AI Engineer',
     focus: 'Develops and deploys advanced AI models.',
-    image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=500&h=500&fit=crop&crop=faces&q=80',
+    image: '/Images/team/engineer-1.jpg',
   },
   {
     name: '',
     role: 'AI Engineer',
     focus: 'Implements intelligent automation pipelines.',
-    image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=500&h=500&fit=crop&crop=faces&q=80',
+    image: '/Images/team/engineer-2.jpg',
   },
   {
     name: '',
     role: 'AI Engineer',
     focus: 'Crafts data-driven, production-ready AI solutions.',
-    image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=500&h=500&fit=crop&crop=faces&q=80',
+    image: '/Images/team/engineer-3.jpg',
   },
 ];
