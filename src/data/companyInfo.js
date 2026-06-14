@@ -123,3 +123,26 @@ export const teamMembers = [
     image: '/Images/team/engineer-3.png',
   },
 ];
+
+// Consolidated roles for the rotating "network" team layout — one node per
+// role group that orbits the founder in the center.
+export const teamRoles = [
+  {
+    role: 'Senior AI Architects',
+    count: 2,
+    focus: 'Enterprise-scale, secure AI & cloud architecture.',
+    image: '/Images/team/senior-architect-1.png',
+  },
+  {
+    role: 'AI Architects',
+    count: 2,
+    focus: 'Scalable, intelligent systems across platforms.',
+    image: '/Images/team/architect-1.png',
+  },
+  {
+    role: 'AI Engineers',
+    count: 3,
+    focus: 'Building & deploying advanced AI models.',
+    image: '/Images/team/engineer-1.png',
+  },
+];
