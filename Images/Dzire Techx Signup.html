@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign Up — Dzire Techx</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg-primary: #07081a;
+  --bg-secondary: #0d0f2b;
+  --bg-card: rgba(255,255,255,0.04);
+  --bg-card-hover: rgba(255,255,255,0.08);
+  --text-primary: #f0f0f5;
+  --text-secondary: #9a9ab0;
+  --text-muted: #6a6a82;
+  --accent-1: #7c5cfc;
+  --accent-2: #a78bfa;
+  --accent-3: #c084fc;
+  --gradient-1: linear-gradient(135deg, #7c5cfc 0%, #a78bfa 50%, #c084fc 100%);
+  --gradient-2: linear-gradient(135deg, #7c5cfc 0%, #6366f1 100%);
+  --gradient-glow: radial-gradient(ellipse at 50% 0%, rgba(124,92,252,0.15) 0%, transparent 60%);
+  --border-subtle: rgba(255,255,255,0.06);
+  --cyan: #22d3ee;
+  --emerald: #34d399;
+  --amber: #fbbf24;
+  --rose: #fb7185;
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+/* ── Layout ── */
+.signup-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100vh;
+}
+
+/* ── Left Panel - Visual ── */
+.visual-panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 60px;
+  overflow: hidden;
+}
+.visual-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.visual-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.25;
+  filter: saturate(0.7);
+}
+.visual-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(7,8,26,0.9) 0%, rgba(124,92,252,0.15) 50%, rgba(7,8,26,0.95) 100%);
+}
+.visual-content {
+  position: relative;
+  z-index: 2;
+  max-width: 520px;
+}
+.visual-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-primary);
+  text-decoration: none;
+  margin-bottom: 60px;
+}
+.visual-logo svg { width: 40px; height: 40px; }
+
+.visual-content h1 {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 3.5vw, 48px);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 20px;
+}
+.visual-content h1 .accent {
+  background: var(--gradient-1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.visual-content p {
+  font-size: 17px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 48px;
+}
+
+/* Features List */
+.features-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+.feature-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: rgba(124,92,252,0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.feature-icon svg {
+  width: 24px;
+  height: 24px;
+  color: var(--accent-2);
+}
+.feature-text h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.feature-text p {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: 0;
+}
+
+/* Testimonial */
+.visual-testimonial {
+  margin-top: 60px;
+  padding: 28px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  backdrop-filter: blur(10px);
+}
+.testimonial-text {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 20px;
+  font-style: italic;
+}
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.testimonial-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid var(--accent-1);
+}
+.testimonial-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.testimonial-info h4 {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+.testimonial-info p {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 0;
+}
+
+/* ── Right Panel - Form ── */
+.form-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  background: var(--bg-primary);
+  position: relative;
+}
+.form-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 40% at 70% 20%, rgba(124,92,252,0.06) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 30% at 30% 80%, rgba(99,102,241,0.04) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.form-container {
+  width: 100%;
+  max-width: 440px;
+  position: relative;
+  z-index: 2;
+}
+
+.form-header {
+  text-align: center;
+  margin-bottom: 36px;
+}
+.form-header h2 {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.form-header p {
+  font-size: 15px;
+  color: var(--text-secondary);
+}
+.form-header p a {
+  color: var(--accent-2);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+.form-header p a:hover {
+  color: var(--accent-3);
+}
+
+/* Account Type Toggle */
+.account-type-toggle {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+.type-option {
+  flex: 1;
+  padding: 16px 20px;
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+  border: 2px solid var(--border-subtle);
+  cursor: pointer;
+  transition: all 0.25s;
+  text-align: center;
+}
+.type-option:hover {
+  background: var(--bg-card-hover);
+  border-color: rgba(124,92,252,0.2);
+}
+.type-option.active {
+  background: rgba(124,92,252,0.08);
+  border-color: var(--accent-1);
+}
+.type-option-icon {
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+.type-option-label {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+.type-option-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+.type-option.active .type-option-label {
+  color: var(--accent-2);
+}
+
+/* Social Login */
+.social-login {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+.social-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 20px;
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 500;
+  font-family: var(--font-body);
+  cursor: pointer;
+  transition: all 0.25s;
+  text-decoration: none;
+}
+.social-btn:hover {
+  background: var(--bg-card-hover);
+  border-color: rgba(255,255,255,0.1);
+}
+.social-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Divider */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+.divider-line {
+  flex: 1;
+  height: 1px;
+  background: var(--border-subtle);
+}
+.divider-text {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* Form */
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.form-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+.form-input {
+  padding: 14px 18px;
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  font-size: 15px;
+  font-family: var(--font-body);
+  transition: all 0.25s;
+  outline: none;
+}
+.form-input::placeholder {
+  color: var(--text-muted);
+}
+.form-input:focus {
+  border-color: rgba(124,92,252,0.4);
+  background: rgba(255,255,255,0.06);
+  box-shadow: 0 0 0 3px rgba(124,92,252,0.1);
+}
+
+/* Password Input */
+.password-input-wrapper {
+  position: relative;
+}
+.password-input-wrapper .form-input {
+  padding-right: 48px;
+}
+.password-toggle {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+}
+.password-toggle:hover {
+  color: var(--text-secondary);
+}
+.password-toggle svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Password Strength */
+.password-strength {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+}
+.strength-bar {
+  flex: 1;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255,255,255,0.1);
+  transition: background 0.3s;
+}
+.strength-bar.active.weak { background: var(--rose); }
+.strength-bar.active.medium { background: var(--amber); }
+.strength-bar.active.strong { background: var(--emerald); }
+
+/* Checkbox */
+.checkbox-group {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.checkbox-input {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--border-subtle);
+  border-radius: 6px;
+  background: var(--bg-card);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+  transition: all 0.2s;
+}
+.checkbox-input.checked {
+  background: var(--gradient-2);
+  border-color: var(--accent-1);
+}
+.checkbox-input svg {
+  width: 12px;
+  height: 12px;
+  color: #fff;
+  display: none;
+}
+.checkbox-input.checked svg {
+  display: block;
+}
+.checkbox-label {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+.checkbox-label a {
+  color: var(--accent-2);
+  text-decoration: none;
+  font-weight: 500;
+}
+.checkbox-label a:hover {
+  text-decoration: underline;
+}
+
+/* Submit Button */
+.submit-btn {
+  width: 100%;
+  padding: 16px 24px;
+  border-radius: var(--radius-md);
+  background: var(--gradient-2);
+  border: none;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: var(--font-body);
+  cursor: pointer;
+  transition: all 0.25s;
+  box-shadow: 0 0 20px rgba(124,92,252,0.25);
+  margin-top: 8px;
+}
+.submit-btn:hover {
+  box-shadow: 0 0 30px rgba(124,92,252,0.4);
+  transform: translateY(-1px);
+}
+.submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Footer */
+.form-footer {
+  text-align: center;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border-subtle);
+}
+.form-footer p {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+.form-footer a {
+  color: var(--accent-2);
+  text-decoration: none;
+}
+.form-footer a:hover {
+  text-decoration: underline;
+}
+
+/* Trust Badges */
+.trust-badges {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  margin-top: 24px;
+}
+.trust-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+.trust-badge svg {
+  width: 16px;
+  height: 16px;
+  color: var(--emerald);
+}
+
+/* ── Animations ── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.form-container {
+  animation: fadeInUp 0.6s ease both;
+}
+.visual-content {
+  animation: fadeInUp 0.6s ease 0.2s both;
+}
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .signup-layout {
+    grid-template-columns: 1fr;
+  }
+  .visual-panel {
+    display: none;
+  }
+  .form-panel {
+    min-height: 100vh;
+    padding: 40px 24px;
+  }
+}
+@media (max-width: 480px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+  .social-login {
+    flex-direction: column;
+  }
+  .account-type-toggle {
+    flex-direction: column;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="signup-layout">
+  <!-- Left Panel - Visual -->
+  <div class="visual-panel">
+    <div class="visual-bg">
+      <img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=1920&q=80" alt="Legal office">
+    </div>
+    <div class="visual-content">
+      <a href="/" class="visual-logo">
+        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="32" height="32" rx="8" fill="url(#logo-grad)"/>
+          <path d="M10 22V10h3v9h6v3H10z" fill="white"/>
+          <defs><linearGradient id="logo-grad" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#7c5cfc"/><stop offset="1" stop-color="#a78bfa"/></linearGradient></defs>
+        </svg>
+        Dzire Techx
+      </a>
+      
+      <h1>Start Your Journey to <span class="accent">Smarter Legal Solutions</span></h1>
+      <p>Join thousands of clients and lawyers who trust Dzire Techx for AI-powered legal assistance, document drafting, and seamless case management.</p>
+      
+      <div class="features-list">
+        <div class="feature-item">
+          <div class="feature-icon">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          </div>
+          <div class="feature-text">
+            <h3>AI-Powered Drafting</h3>
+            <p>Generate legal documents in seconds with our advanced AI</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+          </div>
+          <div class="feature-text">
+            <h3>Verified Lawyer Network</h3>
+            <p>Connect with 2,500+ qualified attorneys across 50+ practice areas</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          </div>
+          <div class="feature-text">
+            <h3>Bank-Grade Security</h3>
+            <p>SOC 2 compliant with end-to-end encryption for all data</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="visual-testimonial">
+        <p class="testimonial-text">"Dzire Techx has transformed how I handle legal matters for my business. The AI drafting alone has saved me countless hours and thousands in legal fees."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">
+            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" alt="Michael Chen">
+          </div>
+          <div class="testimonial-info">
+            <h4>Michael Chen</h4>
+            <p>CEO, TechStart Inc.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Right Panel - Form -->
+  <div class="form-panel">
+    <div class="form-container">
+      <div class="form-header">
+        <h2>Create Your Account</h2>
+        <p>Already have an account? <a href="/login">Sign in</a></p>
+      </div>
+      
+      <!-- Account Type Toggle -->
+      <div class="account-type-toggle">
+        <div class="type-option active" data-type="client">
+          <div class="type-option-icon">👤</div>
+          <div class="type-option-label">I'm a Client</div>
+          <div class="type-option-desc">Find legal help</div>
+        </div>
+        <div class="type-option" data-type="lawyer">
+          <div class="type-option-icon">⚖️</div>
+          <div class="type-option-label">I'm a Lawyer</div>
+          <div class="type-option-desc">Grow my practice</div>
+        </div>
+      </div>
+      
+      <!-- Social Login -->
+      <div class="social-login">
+        <button class="social-btn">
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+          Google
+        </button>
+        <button class="social-btn">
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+          LinkedIn
+        </button>
+      </div>
+      
+      <!-- Divider -->
+      <div class="divider">
+        <div class="divider-line"></div>
+        <span class="divider-text">or continue with email</span>
+        <div class="divider-line"></div>
+      </div>
+      
+      <!-- Signup Form -->
+      <form class="signup-form" id="signupForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">First Name</label>
+            <input type="text" class="form-input" placeholder="John" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Last Name</label>
+            <input type="text" class="form-input" placeholder="Smith" required>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input type="email" class="form-input" placeholder="john@example.com" required>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Phone Number <span style="color: var(--text-muted); font-weight: 400;">(optional)</span></label>
+          <input type="tel" class="form-input" placeholder="+1 (555) 000-0000">
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <div class="password-input-wrapper">
+            <input type="password" class="form-input" id="password" placeholder="Create a strong password" required minlength="8">
+            <button type="button" class="password-toggle" id="togglePassword">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" class="eye-open"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" class="eye-closed" style="display:none"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"/></svg>
+            </button>
+          </div>
+          <div class="password-strength">
+            <div class="strength-bar" id="str1"></div>
+            <div class="strength-bar" id="str2"></div>
+            <div class="strength-bar" id="str3"></div>
+            <div class="strength-bar" id="str4"></div>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <div class="checkbox-group">
+            <div class="checkbox-input" id="termsCheckbox">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+            </div>
+            <label class="checkbox-label">
+              I agree to Dzire Techx's <a href="/terms">Terms of Service</a> and <a href="/privacy">Privacy Policy</a>
+            </label>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <div class="checkbox-group">
+            <div class="checkbox-input" id="marketingCheckbox">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+            </div>
+            <label class="checkbox-label">
+              Send me product updates, tips, and exclusive offers
+            </label>
+          </div>
+        </div>
+        
+        <button type="submit" class="submit-btn">Create Account</button>
+      </form>
+      
+      <div class="form-footer">
+        <p>By signing up, you agree to our terms and acknowledge our privacy policy.</p>
+        <div class="trust-badges">
+          <span class="trust-badge">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            SOC 2 Certified
+          </span>
+          <span class="trust-badge">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+            256-bit Encryption
+          </span>
+          <span class="trust-badge">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+            GDPR Compliant
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Account type toggle
+document.querySelectorAll('.type-option').forEach(opt => {
+  opt.addEventListener('click', () => {
+    document.querySelectorAll('.type-option').forEach(o => o.classList.remove('active'));
+    opt.classList.add('active');
+  });
+});
+
+// Checkbox toggle
+document.querySelectorAll('.checkbox-input').forEach(cb => {
+  cb.addEventListener('click', () => {
+    cb.classList.toggle('checked');
+  });
+});
+
+// Password visibility toggle
+const togglePassword = document.getElementById('togglePassword');
+const passwordInput = document.getElementById('password');
+const eyeOpen = togglePassword.querySelector('.eye-open');
+const eyeClosed = togglePassword.querySelector('.eye-closed');
+
+togglePassword.addEventListener('click', () => {
+  const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+  passwordInput.setAttribute('type', type);
+  eyeOpen.style.display = type === 'password' ? 'block' : 'none';
+  eyeClosed.style.display = type === 'password' ? 'none' : 'block';
+});
+
+// Password strength indicator
+passwordInput.addEventListener('input', () => {
+  const password = passwordInput.value;
+  const bars = [
+    document.getElementById('str1'),
+    document.getElementById('str2'),
+    document.getElementById('str3'),
+    document.getElementById('str4')
+  ];
+  
+  // Reset bars
+  bars.forEach(bar => {
+    bar.classList.remove('active', 'weak', 'medium', 'strong');
+  });
+  
+  if (password.length === 0) return;
+  
+  let strength = 0;
+  if (password.length >= 8) strength++;
+  if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
+  if (/\d/.test(password)) strength++;
+  if (/[^a-zA-Z0-9]/.test(password)) strength++;
+  
+  const strengthClass = strength <= 1 ? 'weak' : strength <= 2 ? 'medium' : 'strong';
+  
+  for (let i = 0; i < strength; i++) {
+    bars[i].classList.add('active', strengthClass);
+  }
+});
+
+// Form submission
+document.getElementById('signupForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const termsChecked = document.getElementById('termsCheckbox').classList.contains('checked');
+  
+  if (!termsChecked) {
+    alert('Please agree to the Terms of Service and Privacy Policy');
+    return;
+  }
+  
+  // Here you would typically send the form data to your server
+  alert('Account created successfully! Redirecting to dashboard...');
+});
+</script>
+
+</body>
+</html>

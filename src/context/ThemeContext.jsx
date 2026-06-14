@@ -6,7 +6,7 @@ export const ThemeProvider = ({ children }) => {
   const [theme, setTheme] = useState(() => {
     // Check localStorage first
     if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem('dz2cloud-theme');
+      const stored = localStorage.getItem('dziretechx-theme');
       if (stored) return stored;
       // Fall back to system preference
       return window.matchMedia('(prefers-color-scheme: dark)').matches
@@ -20,14 +20,14 @@ export const ThemeProvider = ({ children }) => {
     const root = document.documentElement;
     root.classList.remove('light', 'dark');
     root.classList.add(theme);
-    localStorage.setItem('dz2cloud-theme', theme);
+    localStorage.setItem('dziretechx-theme', theme);
   }, [theme]);
 
   // Listen for system theme changes
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     const handleChange = (e) => {
-      const stored = localStorage.getItem('dz2cloud-theme');
+      const stored = localStorage.getItem('dziretechx-theme');
       if (!stored) {
         setTheme(e.matches ? 'dark' : 'light');
       }

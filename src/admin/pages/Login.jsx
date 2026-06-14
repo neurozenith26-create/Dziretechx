@@ -52,7 +52,7 @@ export const Login = () => {
                 <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
               </svg>
             </div>
-            <span className="text-2xl font-display font-bold text-white">DZ2Cloud</span>
+            <span className="text-2xl font-display font-bold text-white">Dzire Techx</span>
           </div>
           <h1 className="text-xl font-semibold text-white">Admin Dashboard</h1>
           <p className="text-gray-400 mt-2">Sign in to manage contact submissions</p>

@@ -1,14 +1,15 @@
 export const companyInfo = {
-  name: 'DZ2Cloud Solutions Private Limited',
-  shortName: 'DZ2Cloud',
+  name: 'Dzire Techx Solutions Private Limited',
+  shortName: 'Dzire Techx',
   tagline: 'Innovating the Future with Cloud & AI',
   description: 'Enterprise-grade Cloud Solutions and AI-driven innovations',
   contact: {
-    phone: '+91 94-771-8505',
+    phone: '+91 94771 18505',
     email: 'DZ2CLOUD@GMAIL.COM',
-    location: 'Kolkata, West Bengal, India',
+    location: 'RDB Boulevard, Unit 5B, 5th Floor, Plot K1, Block EP&GP, Sec-V, Sech Bhawan, Saltlake, North 24 Parganas - 700091, West Bengal',
+    website: 'www.dziretechx.com',
   },
-  cin: 'U62099WB2023PTC264874',
+  cin: 'U62091WR2026PTC294268',
   social: {
     linkedin: '#',
     twitter: '#',
@@ -16,7 +17,7 @@ export const companyInfo = {
 };
 
 export const aboutContent = {
-  intro: "At DZ2Cloud, we empower businesses to thrive in the digital era through cutting-edge Cloud Solutions and AI-driven innovations. Our team specializes in building scalable, secure, and intelligent systems that transform ideas into impactful results.",
+  intro: "At Dzire Techx, we empower businesses to thrive in the digital era through cutting-edge Cloud Solutions and AI-driven innovations. Our team specializes in building scalable, secure, and intelligent systems that transform ideas into impactful results.",
   cloudExpertise: {
     title: 'Cloud Expertise',
     description: 'We design and deliver proofs-of-concept, demonstrations, and tailored solutions that maximize the potential of cloud platforms. Our consultancy and support services ensure seamless adoption and optimized performance for every client.'

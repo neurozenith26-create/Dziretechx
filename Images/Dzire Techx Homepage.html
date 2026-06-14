@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dzire Techx — AI-Powered Legal Solutions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg-primary: #07081a;
+  --bg-secondary: #0d0f2b;
+  --bg-card: rgba(255,255,255,0.04);
+  --bg-card-hover: rgba(255,255,255,0.08);
+  --text-primary: #f0f0f5;
+  --text-secondary: #9a9ab0;
+  --text-muted: #6a6a82;
+  --accent-1: #7c5cfc;
+  --accent-2: #a78bfa;
+  --accent-3: #c084fc;
+  --gradient-1: linear-gradient(135deg, #7c5cfc 0%, #a78bfa 50%, #c084fc 100%);
+  --gradient-2: linear-gradient(135deg, #7c5cfc 0%, #6366f1 100%);
+  --gradient-glow: radial-gradient(ellipse at 50% 0%, rgba(124,92,252,0.15) 0%, transparent 60%);
+  --border-subtle: rgba(255,255,255,0.06);
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Ambient Background ── */
+.ambient-bg {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 10%, rgba(124,92,252,0.08) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 50% at 80% 20%, rgba(99,102,241,0.06) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 40% at 50% 80%, rgba(192,132,252,0.04) 0%, transparent 50%);
+}
+
+.grain-overlay {
+  position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
+/* ── Layout ── */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 2; }
+
+/* ── Announcement Bar ── */
+.announcement-bar {
+  background: linear-gradient(90deg, rgba(124,92,252,0.12) 0%, rgba(99,102,241,0.08) 100%);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 10px 0;
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-secondary);
+  letter-spacing: 0.02em;
+}
+.announcement-bar span { color: var(--accent-2); font-weight: 600; }
+.announcement-bar a {
+  color: var(--accent-2); text-decoration: none; font-weight: 600;
+  margin-left: 6px; transition: color 0.2s;
+}
+.announcement-bar a:hover { color: var(--accent-3); }
+
+/* ── Navigation ── */
+nav {
+  padding: 18px 0;
+  border-bottom: 1px solid var(--border-subtle);
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(7,8,26,0.85);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+}
+.nav-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  max-width: 1200px; margin: 0 auto; padding: 0 24px;
+}
+.nav-logo {
+  display: flex; align-items: center; gap: 10px;
+  font-family: var(--font-display); font-size: 22px; font-weight: 700;
+  color: var(--text-primary); text-decoration: none;
+}
+.nav-logo svg { width: 32px; height: 32px; }
+.nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
+.nav-links a {
+  color: var(--text-secondary); text-decoration: none; font-size: 14.5px;
+  font-weight: 500; letter-spacing: 0.01em; transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--text-primary); }
+.nav-right { display: flex; align-items: center; gap: 16px; }
+.btn-ghost {
+  color: var(--text-secondary); font-size: 14px; font-weight: 500;
+  text-decoration: none; transition: color 0.2s;
+}
+.btn-ghost:hover { color: var(--text-primary); }
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 10px 22px; border-radius: 50px; font-size: 14px; font-weight: 600;
+  color: #fff; background: var(--gradient-2); border: none; cursor: pointer;
+  text-decoration: none; transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 0 20px rgba(124,92,252,0.25);
+}
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 30px rgba(124,92,252,0.4);
+}
+
+/* ── Hero ── */
+.hero {
+  padding: 100px 0 80px;
+  position: relative;
+  text-align: left;
+}
+.hero-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 16px 6px 8px; border-radius: 50px;
+  background: rgba(124,92,252,0.1); border: 1px solid rgba(124,92,252,0.2);
+  font-size: 13px; color: var(--accent-2); font-weight: 500;
+  margin-bottom: 28px;
+  animation: fadeInUp 0.8s ease both;
+}
+.hero-badge-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--accent-1);
+  box-shadow: 0 0 8px var(--accent-1);
+  animation: pulse-dot 2s ease infinite;
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; } 50% { opacity: 0.4; }
+}
+
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(38px, 4.5vw, 58px);
+  font-weight: 700; line-height: 1.12;
+  letter-spacing: -0.02em;
+  margin-bottom: 24px;
+  animation: fadeInUp 0.8s ease 0.1s both;
+}
+.hero h1 .accent {
+  background: var(--gradient-1); -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; background-clip: text;
+}
+.hero p {
+  font-size: 17px; line-height: 1.7; color: var(--text-secondary);
+  max-width: 480px; margin-bottom: 36px;
+  animation: fadeInUp 0.8s ease 0.2s both;
+}
+.hero-ctas {
+  display: flex; gap: 14px; flex-wrap: wrap;
+  animation: fadeInUp 0.8s ease 0.3s both;
+}
+.btn-outline {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 10px 22px; border-radius: 50px; font-size: 14px; font-weight: 600;
+  color: var(--text-primary); background: transparent;
+  border: 1px solid rgba(255,255,255,0.15); cursor: pointer;
+  text-decoration: none; transition: all 0.2s;
+}
+.btn-outline:hover {
+  border-color: rgba(255,255,255,0.3);
+  background: rgba(255,255,255,0.04);
+}
+
+/* Hero Visual */
+.hero-visual {
+  position: relative;
+  animation: fadeInUp 0.8s ease 0.4s both;
+}
+.hero-visual-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+.hero-visual-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(124,92,252,0.4), transparent);
+}
+.visual-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 24px; padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.visual-header-left { display: flex; align-items: center; gap: 10px; }
+.visual-icon {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: var(--gradient-2); display: flex; align-items: center; justify-content: center;
+}
+.visual-header-left span { font-weight: 600; font-size: 15px; }
+.visual-status {
+  padding: 4px 12px; border-radius: 50px; font-size: 12px; font-weight: 600;
+  background: rgba(52,211,153,0.1); color: #34d399; border: 1px solid rgba(52,211,153,0.2);
+}
+.visual-lines { display: flex; flex-direction: column; gap: 14px; }
+.visual-line {
+  height: 10px; border-radius: 6px;
+  background: rgba(255,255,255,0.04);
+  position: relative; overflow: hidden;
+}
+.visual-line::after {
+  content: ''; position: absolute; inset: 0;
+  border-radius: 6px;
+  background: var(--gradient-1);
+  animation: line-fill 3s ease infinite;
+  opacity: 0.6;
+}
+.visual-line:nth-child(1) { width: 100%; }
+.visual-line:nth-child(1)::after { animation-delay: 0s; }
+.visual-line:nth-child(2) { width: 85%; }
+.visual-line:nth-child(2)::after { animation-delay: 0.3s; }
+.visual-line:nth-child(3) { width: 92%; }
+.visual-line:nth-child(3)::after { animation-delay: 0.6s; }
+.visual-line:nth-child(4) { width: 70%; }
+.visual-line:nth-child(4)::after { animation-delay: 0.9s; }
+.visual-line:nth-child(5) { width: 60%; }
+.visual-line:nth-child(5)::after { animation-delay: 1.2s; }
+
+@keyframes line-fill {
+  0% { transform: translateX(-100%); }
+  50% { transform: translateX(0); }
+  100% { transform: translateX(100%); }
+}
+
+.visual-floating-badge {
+  position: absolute; bottom: -16px; right: 24px;
+  background: rgba(15,16,40,0.95); border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md); padding: 14px 20px;
+  display: flex; align-items: center; gap: 12px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+  animation: float 4s ease-in-out infinite;
+}
+.floating-icon {
+  width: 38px; height: 38px; border-radius: 10px;
+  background: linear-gradient(135deg, #34d399, #059669);
+  display: flex; align-items: center; justify-content: center;
+}
+.floating-text span { display: block; }
+.floating-text .ft-label { font-size: 11px; color: var(--text-muted); font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; }
+.floating-text .ft-value { font-size: 15px; font-weight: 700; color: var(--text-primary); }
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+/* ── Trusted By ── */
+.trusted {
+  padding: 60px 0;
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+}
+.trusted-label {
+  text-align: center; font-size: 12px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.12em;
+  color: var(--text-muted); margin-bottom: 32px;
+}
+.trusted-logos {
+  display: flex; align-items: center; justify-content: center;
+  gap: 48px; flex-wrap: wrap; opacity: 0.4;
+}
+.trusted-logo {
+  font-family: var(--font-display); font-size: 20px; font-weight: 700;
+  color: var(--text-primary); letter-spacing: 0.02em;
+}
+
+/* ── Features ── */
+.features {
+  padding: 100px 0;
+}
+.section-label {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 16px; border-radius: 50px;
+  background: rgba(124,92,252,0.08); border: 1px solid rgba(124,92,252,0.15);
+  font-size: 12px; color: var(--accent-2); font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  margin-bottom: 20px;
+}
+.section-title {
+  font-family: var(--font-display); font-size: clamp(30px, 3.5vw, 44px);
+  font-weight: 700; line-height: 1.2; margin-bottom: 16px;
+  letter-spacing: -0.01em;
+}
+.section-subtitle {
+  font-size: 16px; color: var(--text-secondary); max-width: 520px;
+  line-height: 1.7; margin-bottom: 56px;
+}
+
+.features-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+}
+.feature-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 36px 28px;
+  transition: all 0.35s ease;
+  position: relative; overflow: hidden;
+}
+.feature-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(124,92,252,0.3), transparent);
+  opacity: 0; transition: opacity 0.35s;
+}
+.feature-card:hover {
+  background: var(--bg-card-hover);
+  border-color: rgba(124,92,252,0.15);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+}
+.feature-card:hover::before { opacity: 1; }
+.feature-icon {
+  width: 52px; height: 52px; border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 22px; font-size: 24px;
+}
+.fi-purple { background: rgba(124,92,252,0.12); }
+.fi-blue { background: rgba(99,102,241,0.12); }
+.fi-green { background: rgba(52,211,153,0.12); }
+.fi-amber { background: rgba(251,191,36,0.12); }
+.fi-rose { background: rgba(251,113,133,0.12); }
+.fi-cyan { background: rgba(34,211,238,0.12); }
+
+.feature-card h3 {
+  font-size: 18px; font-weight: 700; margin-bottom: 10px;
+  letter-spacing: -0.01em;
+}
+.feature-card p {
+  font-size: 14px; color: var(--text-secondary); line-height: 1.65;
+}
+
+/* ── How It Works ── */
+.how-it-works {
+  padding: 100px 0;
+  border-top: 1px solid var(--border-subtle);
+}
+.steps {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
+  margin-top: 56px;
+}
+.step {
+  text-align: center; position: relative;
+  padding: 32px 20px;
+}
+.step-number {
+  width: 52px; height: 52px; border-radius: 50%;
+  background: var(--gradient-2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; font-weight: 700; margin: 0 auto 20px;
+  box-shadow: 0 0 25px rgba(124,92,252,0.25);
+}
+.step h3 {
+  font-size: 17px; font-weight: 700; margin-bottom: 10px;
+}
+.step p {
+  font-size: 14px; color: var(--text-secondary); line-height: 1.6;
+}
+.step-connector {
+  position: absolute; top: 58px; right: -14px;
+  color: var(--text-muted); font-size: 20px;
+}
+
+/* ── AI Drafting Showcase ── */
+.ai-showcase {
+  padding: 100px 0;
+  border-top: 1px solid var(--border-subtle);
+}
+.ai-showcase-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
+  align-items: center; margin-top: 56px;
+}
+.ai-demo-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  position: relative; overflow: hidden;
+}
+.ai-demo-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(124,92,252,0.4), transparent);
+}
+.ai-demo-header {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 20px; padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.ai-demo-header-icon {
+  width: 32px; height: 32px; border-radius: 8px;
+  background: var(--gradient-1); display: flex;
+  align-items: center; justify-content: center; font-size: 16px;
+}
+.ai-demo-header span { font-weight: 600; font-size: 14px; }
+.ai-demo-body { font-size: 14px; color: var(--text-secondary); line-height: 1.8; }
+.ai-demo-body .typing-line {
+  display: block; padding: 4px 0;
+  border-right: 2px solid var(--accent-1);
+  animation: blink-cursor 1s step-end infinite;
+  width: fit-content;
+}
+@keyframes blink-cursor {
+  50% { border-color: transparent; }
+}
+
+.ai-feature-list { display: flex; flex-direction: column; gap: 24px; }
+.ai-feature-item {
+  display: flex; gap: 16px; align-items: flex-start;
+}
+.ai-feature-icon {
+  width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
+  background: rgba(124,92,252,0.1); display: flex;
+  align-items: center; justify-content: center; font-size: 20px;
+}
+.ai-feature-text h4 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+.ai-feature-text p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+
+/* ── Stats ── */
+.stats {
+  padding: 80px 0;
+  border-top: 1px solid var(--border-subtle);
+}
+.stats-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
+}
+.stat-card {
+  text-align: center; padding: 36px 20px;
+  background: var(--bg-card); border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+}
+.stat-number {
+  font-family: var(--font-display); font-size: 42px; font-weight: 700;
+  background: var(--gradient-1); -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; background-clip: text;
+  margin-bottom: 6px;
+}
+.stat-label {
+  font-size: 14px; color: var(--text-secondary); font-weight: 500;
+}
+
+/* ── CTA ── */
+.cta {
+  padding: 100px 0;
+  border-top: 1px solid var(--border-subtle);
+}
+.cta-card {
+  text-align: center; padding: 80px 40px;
+  border-radius: var(--radius-xl);
+  background:
+    linear-gradient(135deg, rgba(124,92,252,0.08) 0%, rgba(99,102,241,0.04) 100%);
+  border: 1px solid rgba(124,92,252,0.15);
+  position: relative; overflow: hidden;
+}
+.cta-card::before {
+  content: ''; position: absolute; top: -50%; left: -50%;
+  width: 200%; height: 200%;
+  background: radial-gradient(circle at 50% 50%, rgba(124,92,252,0.06) 0%, transparent 50%);
+  animation: cta-glow 6s ease-in-out infinite;
+}
+@keyframes cta-glow {
+  0%, 100% { transform: translate(0,0); }
+  50% { transform: translate(5%, 5%); }
+}
+.cta-card h2 {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 3vw, 40px); font-weight: 700;
+  margin-bottom: 16px; position: relative;
+}
+.cta-card p {
+  font-size: 16px; color: var(--text-secondary); max-width: 480px;
+  margin: 0 auto 36px; line-height: 1.7; position: relative;
+}
+.cta-buttons {
+  display: flex; gap: 14px; justify-content: center; position: relative;
+}
+
+/* ── Footer ── */
+footer {
+  padding: 60px 0 32px;
+  border-top: 1px solid var(--border-subtle);
+}
+.footer-grid {
+  display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  gap: 48px; margin-bottom: 48px;
+}
+.footer-brand p {
+  font-size: 14px; color: var(--text-muted); line-height: 1.7;
+  margin-top: 16px; max-width: 280px;
+}
+.footer-col h4 {
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 18px;
+}
+.footer-col ul { list-style: none; }
+.footer-col li { margin-bottom: 10px; }
+.footer-col a {
+  color: var(--text-secondary); text-decoration: none;
+  font-size: 14px; transition: color 0.2s;
+}
+.footer-col a:hover { color: var(--text-primary); }
+.footer-bottom {
+  display: flex; justify-content: space-between; align-items: center;
+  padding-top: 24px; border-top: 1px solid var(--border-subtle);
+  font-size: 13px; color: var(--text-muted);
+}
+
+/* ── Animations ── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.fade-in {
+  opacity: 0; transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.fade-in.visible {
+  opacity: 1; transform: translateY(0);
+}
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .hero-grid { grid-template-columns: 1fr; }
+  .hero-visual { display: none; }
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+  .steps { grid-template-columns: repeat(2, 1fr); }
+  .step-connector { display: none; }
+  .ai-showcase-grid { grid-template-columns: 1fr; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .features-grid { grid-template-columns: 1fr; }
+  .steps { grid-template-columns: 1fr; }
+  .stats-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .trusted-logos { gap: 28px; }
+}
+</style>
+</head>
+<body>
+
+<div class="ambient-bg"></div>
+<div class="grain-overlay"></div>
+
+<!-- Announcement Bar -->
+<div class="announcement-bar">
+  <span>🚀 New:</span> AI Drafting Assistant v2.0 is live — generate legal documents 10× faster.
+  <a href="#">Try it now →</a>
+</div>
+
+<!-- Navigation -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="32" height="32" rx="8" fill="url(#logo-grad)"/>
+        <path d="M10 22V10h3v9h6v3H10z" fill="white"/>
+        <defs><linearGradient id="logo-grad" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#7c5cfc"/><stop offset="1" stop-color="#a78bfa"/></linearGradient></defs>
+      </svg>
+      Dzire Techx
+    </a>
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#ai-drafting">AI Drafting</a></li>
+      <li><a href="#how-it-works">For Lawyers</a></li>
+      <li><a href="#stats">For Clients</a></li>
+      <li><a href="#">Pricing</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="#" class="btn-ghost">Log in</a>
+      <a href="#" class="btn-primary">Get Started →</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <div class="hero-badge-dot"></div>
+          Trusted by 500+ Law Firms
+        </div>
+        <h1>AI-Powered Legal Solutions <span class="accent">at Your Fingertips</span></h1>
+        <p>Connect with top lawyers, draft legal documents with AI, and manage your cases — all in one intelligent platform built for the modern legal world.</p>
+        <div class="hero-ctas">
+          <a href="#" class="btn-primary">Find a Lawyer →</a>
+          <a href="#" class="btn-outline">Try AI Drafting</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-visual-card">
+          <div class="visual-header">
+            <div class="visual-header-left">
+              <div class="visual-icon">
+                <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
+              </div>
+              <span>AI Contract Draft</span>
+            </div>
+            <div class="visual-status">● Generating</div>
+          </div>
+          <div class="visual-lines">
+            <div class="visual-line"></div>
+            <div class="visual-line"></div>
+            <div class="visual-line"></div>
+            <div class="visual-line"></div>
+            <div class="visual-line"></div>
+          </div>
+        </div>
+        <div class="visual-floating-badge">
+          <div class="floating-icon">
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="floating-text">
+            <span class="ft-label">Compliance</span>
+            <span class="ft-value">98.5% Accuracy</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Trusted By -->
+<section class="trusted">
+  <div class="container">
+    <div class="trusted-label">Trusted by leading law firms & enterprises</div>
+    <div class="trusted-logos">
+      <span class="trusted-logo">Baker McKenzie</span>
+      <span class="trusted-logo">Latham & Co</span>
+      <span class="trusted-logo">DLA Piper</span>
+      <span class="trusted-logo">Clifford Chance</span>
+      <span class="trusted-logo">Allen & Overy</span>
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<section class="features fade-in" id="features">
+  <div class="container">
+    <div class="section-label">✦ Core Features</div>
+    <h2 class="section-title">Everything your legal<br>practice needs</h2>
+    <p class="section-subtitle">From AI-powered document drafting to seamless client-lawyer matching, Dzire Techx streamlines every aspect of legal work.</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon fi-purple">📝</div>
+        <h3>AI Document Drafting</h3>
+        <p>Generate contracts, NDAs, briefs, and more in seconds. Our AI understands legal context and jurisdiction-specific requirements.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon fi-blue">⚖️</div>
+        <h3>Lawyer Matching</h3>
+        <p>Connect clients with the right lawyer based on expertise, location, budget, and case type through intelligent matching algorithms.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon fi-green">📂</div>
+        <h3>Case Management</h3>
+        <p>Track case progress, deadlines, and documents in one centralized dashboard. Never miss a filing date again.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon fi-amber">🔍</div>
+        <h3>Legal Research</h3>
+        <p>AI-assisted research across case law, statutes, and regulations. Find relevant precedents in minutes, not hours.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon fi-rose">💬</div>
+        <h3>Client Portal</h3>
+        <p>Secure messaging, document sharing, and real-time case updates keep clients informed and engaged throughout their legal journey.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon fi-cyan">🛡️</div>
+        <h3>Compliance & Security</h3>
+        <p>Bank-grade encryption, SOC 2 compliance, and attorney-client privilege protection built into every interaction.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- How It Works -->
+<section class="how-it-works fade-in" id="how-it-works">
+  <div class="container">
+    <div class="section-label">✦ How It Works</div>
+    <h2 class="section-title">Get started in minutes</h2>
+    <p class="section-subtitle">Whether you're a client seeking legal help or a lawyer growing your practice, Dzire Techx makes it simple.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-number">1</div>
+        <h3>Sign Up</h3>
+        <p>Create your free account as a client or lawyer. Set up your profile in under 2 minutes.</p>
+        <span class="step-connector">→</span>
+      </div>
+      <div class="step">
+        <div class="step-number">2</div>
+        <h3>Describe Your Need</h3>
+        <p>Tell us about your legal situation or upload documents for AI analysis.</p>
+        <span class="step-connector">→</span>
+      </div>
+      <div class="step">
+        <div class="step-number">3</div>
+        <h3>Get Matched</h3>
+        <p>Our AI matches you with the best-fit lawyer or drafts documents instantly.</p>
+        <span class="step-connector">→</span>
+      </div>
+      <div class="step">
+        <div class="step-number">4</div>
+        <h3>Resolve & Grow</h3>
+        <p>Manage your case end-to-end, from consultation to resolution, all on one platform.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AI Drafting Showcase -->
+<section class="ai-showcase fade-in" id="ai-drafting">
+  <div class="container">
+    <div class="section-label">✦ AI Drafting Assistant</div>
+    <h2 class="section-title">Draft legal documents<br>in seconds, not hours</h2>
+    <p class="section-subtitle">Our AI understands legal language, jurisdictional nuances, and industry best practices to generate accurate first drafts.</p>
+    <div class="ai-showcase-grid">
+      <div class="ai-demo-card">
+        <div class="ai-demo-header">
+          <div class="ai-demo-header-icon">⚡</div>
+          <span>Dzire Techx AI — Drafting Assistant</span>
+        </div>
+        <div class="ai-demo-body">
+          <p style="color:var(--text-muted);margin-bottom:12px;font-size:12px;">PROMPT</p>
+          <p style="margin-bottom:20px;color:var(--accent-2);">"Draft a Non-Disclosure Agreement for a SaaS company partnering with a data vendor, governed by Delaware law."</p>
+          <p style="color:var(--text-muted);margin-bottom:12px;font-size:12px;">AI OUTPUT</p>
+          <p><strong style="color:var(--text-primary)">NON-DISCLOSURE AGREEMENT</strong></p>
+          <p style="margin-top:8px;">This Non-Disclosure Agreement ("Agreement") is entered into as of [Date], by and between [Company Name], a Delaware corporation ("Disclosing Party"), and [Vendor Name] ("Receiving Party")...</p>
+          <p style="margin-top:8px;">
+            <span class="typing-line">1. Definition of Confidential Information...</span>
+          </p>
+        </div>
+      </div>
+      <div class="ai-feature-list">
+        <div class="ai-feature-item">
+          <div class="ai-feature-icon">⚡</div>
+          <div class="ai-feature-text">
+            <h4>Instant Generation</h4>
+            <p>Produce complete first drafts of contracts, agreements, and briefs in under 30 seconds.</p>
+          </div>
+        </div>
+        <div class="ai-feature-item">
+          <div class="ai-feature-icon">🎯</div>
+          <div class="ai-feature-text">
+            <h4>Jurisdiction-Aware</h4>
+            <p>Automatically adapts language and clauses based on applicable state and federal laws.</p>
+          </div>
+        </div>
+        <div class="ai-feature-item">
+          <div class="ai-feature-icon">🔄</div>
+          <div class="ai-feature-text">
+            <h4>Iterative Refinement</h4>
+            <p>Chat with the AI to revise specific sections, adjust tone, or add custom clauses.</p>
+          </div>
+        </div>
+        <div class="ai-feature-item">
+          <div class="ai-feature-icon">📚</div>
+          <div class="ai-feature-text">
+            <h4>Template Library</h4>
+            <p>Access 200+ pre-built templates for NDAs, employment agreements, leases, and more.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stats -->
+<section class="stats fade-in" id="stats">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-number">10,000+</div>
+        <div class="stat-label">Documents Drafted</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">2,500+</div>
+        <div class="stat-label">Verified Lawyers</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">98.5%</div>
+        <div class="stat-label">Client Satisfaction</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">50+</div>
+        <div class="stat-label">Practice Areas</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta fade-in">
+  <div class="container">
+    <div class="cta-card">
+      <h2>Ready to transform your<br>legal practice?</h2>
+      <p>Join thousands of lawyers and clients who trust Dzire Techx to simplify legal work with the power of AI.</p>
+      <div class="cta-buttons">
+        <a href="#" class="btn-primary">Get Started Free →</a>
+        <a href="#" class="btn-outline">Book a Demo</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="nav-logo" style="margin-bottom:0;">
+          <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" width="28" height="28">
+            <rect width="32" height="32" rx="8" fill="url(#logo-grad2)"/>
+            <path d="M10 22V10h3v9h6v3H10z" fill="white"/>
+            <defs><linearGradient id="logo-grad2" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#7c5cfc"/><stop offset="1" stop-color="#a78bfa"/></linearGradient></defs>
+          </svg>
+          Dzire Techx
+        </a>
+        <p>AI-powered legal solutions connecting clients and lawyers. Draft, manage, and resolve — all in one platform.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="#">AI Drafting</a></li>
+          <li><a href="#">Lawyer Matching</a></li>
+          <li><a href="#">Case Management</a></li>
+          <li><a href="#">Legal Research</a></li>
+          <li><a href="#">Client Portal</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Press</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Security</a></li>
+          <li><a href="#">Cookie Policy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Dzire Techx. All rights reserved.</span>
+      <span>Built with ❤️ for the legal community</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Intersection Observer for fade-in animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// Smooth nav background on scroll
+const nav = document.querySelector('nav');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 20) {
+    nav.style.borderBottomColor = 'rgba(255,255,255,0.08)';
+  } else {
+    nav.style.borderBottomColor = 'rgba(255,255,255,0.06)';
+  }
+});
+</script>
+
+</body>
+</html>

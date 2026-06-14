@@ -99,7 +99,7 @@ export const CallToAction = () => {
             variants={fadeInUp}
             className="text-base sm:text-lg md:text-xl text-white/70 mb-8 sm:mb-10 max-w-2xl mx-auto px-4 sm:px-0"
           >
-            Partner with DZ2Cloud to accelerate your digital transformation journey.
+            Partner with Dzire Techx to accelerate your digital transformation journey.
             Let's build the future together.
           </motion.p>
 

@@ -64,7 +64,7 @@ const WhyUsCard = ({ item, index }) => {
   );
 };
 
-export const WhyDZ2Cloud = () => {
+export const WhyDzireTechx = () => {
   return (
     <section id="why-us" className="relative section-padding overflow-hidden">
       {/* Background Server Growth Image - Desktop Only */}
@@ -107,7 +107,7 @@ export const WhyDZ2Cloud = () => {
       <div className="container-custom relative">
         <SectionHeading
           subtitle="Our Advantage"
-          title="Why Choose DZ2Cloud"
+          title="Why Choose Dzire Techx"
           description="Backed by experience, driven by innovation"
         />
 
@@ -213,4 +213,4 @@ export const WhyDZ2Cloud = () => {
   );
 };
 
-export default WhyDZ2Cloud;
+export default WhyDzireTechx;

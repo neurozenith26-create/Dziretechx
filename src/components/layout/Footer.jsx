@@ -38,7 +38,7 @@ const footerLinks = {
   company: [
     { name: 'About Us', href: '#about' },
     { name: 'Case Studies', href: '#case-studies' },
-    { name: 'Why DZ2Cloud', href: '#why-us' },
+    { name: 'Why Dzire Techx', href: '#why-us' },
     { name: 'Contact', href: '#contact' },
   ],
 };
@@ -109,7 +109,7 @@ export const Footer = () => {
                 </svg>
               </div>
               <span className="text-xl font-display font-bold text-gray-900 dark:text-white">
-                DZ2<span className="text-brand-500">Cloud</span>
+                Dzire <span className="text-brand-500">Techx</span>
               </span>
             </div>
             <p className="text-gray-600 dark:text-gray-400 mb-6 text-sm leading-relaxed">

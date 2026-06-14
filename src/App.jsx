@@ -8,7 +8,7 @@ import { About } from './components/sections/About';
 import { MissionVision } from './components/sections/MissionVision';
 import { Capabilities } from './components/sections/Capabilities';
 import { CaseStudies } from './components/sections/CaseStudies';
-import { WhyDZ2Cloud } from './components/sections/WhyDZ2Cloud';
+import { WhyDzireTechx } from './components/sections/WhyDzireTechx';
 import { CallToAction } from './components/sections/CallToAction';
 import { Contact } from './components/sections/Contact';
 import { Login } from './admin/pages/Login';
@@ -28,7 +28,7 @@ const MainSite = () => {
         <MissionVision />
         <Capabilities />
         <CaseStudies />
-        <WhyDZ2Cloud />
+        <WhyDzireTechx />
         <CallToAction />
         <Contact />
       </main>

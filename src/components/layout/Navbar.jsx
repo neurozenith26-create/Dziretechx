@@ -87,7 +87,7 @@ export const Navbar = () => {
                 </svg>
               </div>
               <span className="text-lg sm:text-xl font-display font-bold text-gray-900 dark:text-white">
-                DZ2<span className="text-brand-500">Cloud</span>
+                Dzire <span className="text-brand-500">Techx</span>
               </span>
             </motion.a>
 

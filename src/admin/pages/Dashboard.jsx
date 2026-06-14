@@ -168,7 +168,7 @@ const SubmissionModal = ({ submission, onClose, onMarkRead, onDelete }) => {
           </button>
           <div className="flex items-center gap-3">
             <a
-              href={`mailto:${submission.email}?subject=Re: Your inquiry to DZ2Cloud`}
+              href={`mailto:${submission.email}?subject=Re: Your inquiry to Dzire Techx`}
               className="flex items-center gap-2 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors"
             >
               <Mail className="w-4 h-4" />

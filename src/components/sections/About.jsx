@@ -60,7 +60,7 @@ export const About = () => {
               <div className="relative p-2 rounded-2xl bg-white/10 dark:bg-white/5 backdrop-blur-sm border border-gray-200/50 dark:border-white/10 shadow-xl overflow-hidden">
                 <img
                   src={teamImage}
-                  alt="DZ2Cloud team collaboration and expertise"
+                  alt="Dzire Techx team collaboration and expertise"
                   loading="lazy"
                   className="w-full h-auto max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg object-cover rounded-xl"
                 />
@@ -81,7 +81,7 @@ export const About = () => {
           >
             <motion.div variants={fadeInRight}>
               <span className="inline-block px-4 py-1.5 mb-6 text-sm font-medium rounded-full bg-brand-500/10 text-brand-600 dark:bg-brand-500/20 dark:text-brand-400">
-                About DZ2Cloud
+                About Dzire Techx
               </span>
             </motion.div>
 
