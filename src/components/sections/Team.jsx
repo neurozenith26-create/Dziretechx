@@ -43,9 +43,6 @@ const OrbitNode = ({ role }) => (
       <p className="text-sm font-display font-bold text-gray-900 dark:text-white leading-tight">
         {role.role}
       </p>
-      <p className="text-[11px] font-medium text-brand-600 dark:text-brand-400">
-        {role.count} {role.count === 1 ? 'member' : 'members'}
-      </p>
     </div>
   </div>
 );
@@ -56,9 +53,6 @@ const RoleCard = ({ role }) => (
     <GlassCard animated={false} padding="none" className="h-full p-6 flex flex-col items-center text-center">
       <Avatar src={role.image} alt={role.role} className="w-24 h-24 transition-transform duration-300 group-hover:scale-105" />
       <h3 className="mt-4 text-base sm:text-lg font-display font-bold text-gray-900 dark:text-white">{role.role}</h3>
-      <span className="mt-1 inline-block px-3 py-0.5 text-xs font-medium rounded-full bg-brand-500/10 text-brand-600 dark:bg-brand-500/20 dark:text-brand-400">
-        {role.count} {role.count === 1 ? 'member' : 'members'}
-      </span>
       <p className="mt-3 text-xs sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{role.focus}</p>
     </GlassCard>
   </motion.div>
