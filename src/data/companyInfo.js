@@ -76,7 +76,7 @@ export const teamFounder = {
   name: '',
   role: 'Founder & CEO',
   focus: 'Driving the vision and strategy behind Dzire Techx’s cloud & AI solutions.',
-  image: '/Images/team/founder.png',
+  image: '/Images/team/founder.jpg',
 };
 
 export const teamMembers = [
