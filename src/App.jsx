@@ -9,6 +9,7 @@ import { MissionVision } from './components/sections/MissionVision';
 import { Capabilities } from './components/sections/Capabilities';
 import { CaseStudies } from './components/sections/CaseStudies';
 import { WhyDzireTechx } from './components/sections/WhyDzireTechx';
+import { Team } from './components/sections/Team';
 import { CallToAction } from './components/sections/CallToAction';
 import { Contact } from './components/sections/Contact';
 import { Login } from './admin/pages/Login';
@@ -29,6 +30,7 @@ const MainSite = () => {
         <Capabilities />
         <CaseStudies />
         <WhyDzireTechx />
+        <Team />
         <CallToAction />
         <Contact />
       </main>
