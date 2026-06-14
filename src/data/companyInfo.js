@@ -145,4 +145,16 @@ export const teamRoles = [
     focus: 'Building & deploying advanced AI models.',
     image: '/Images/team/engineer-1.png',
   },
+  {
+    role: 'Senior Developers',
+    count: 2,
+    focus: 'Leading full-stack development and engineering standards.',
+    image: '/Images/team/senior-architect-2.png',
+  },
+  {
+    role: 'Developers',
+    count: 3,
+    focus: 'Building robust, high-quality applications and features.',
+    image: '/Images/team/engineer-2.png',
+  },
 ];
