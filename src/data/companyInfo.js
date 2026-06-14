@@ -76,7 +76,7 @@ export const teamFounder = {
   name: '',
   role: 'Founder & CEO',
   focus: 'Driving the vision and strategy behind Dzire Techx’s cloud & AI solutions.',
-  image: '/Images/team/founder.jpg',
+  image: '/Images/team/founder.png',
 };
 
 export const teamMembers = [
@@ -84,42 +84,42 @@ export const teamMembers = [
     name: '',
     role: 'Senior AI Architect',
     focus: 'Designs enterprise-scale, secure AI & cloud architecture.',
-    image: '/Images/team/senior-architect-1.jpg',
+    image: '/Images/team/senior-architect-1.png',
   },
   {
     name: '',
     role: 'Senior AI Architect',
     focus: 'Leads system design and intelligent automation strategy.',
-    image: '/Images/team/senior-architect-2.jpg',
+    image: '/Images/team/senior-architect-2.png',
   },
   {
     name: '',
     role: 'AI Architect',
     focus: 'Builds scalable, intelligent systems across platforms.',
-    image: '/Images/team/architect-1.jpg',
+    image: '/Images/team/architect-1.png',
   },
   {
     name: '',
     role: 'AI Architect',
     focus: 'Integrates AI with cloud-native and legacy systems.',
-    image: '/Images/team/architect-2.jpg',
+    image: '/Images/team/architect-2.png',
   },
   {
     name: '',
     role: 'AI Engineer',
     focus: 'Develops and deploys advanced AI models.',
-    image: '/Images/team/engineer-1.jpg',
+    image: '/Images/team/engineer-1.png',
   },
   {
     name: '',
     role: 'AI Engineer',
     focus: 'Implements intelligent automation pipelines.',
-    image: '/Images/team/engineer-2.jpg',
+    image: '/Images/team/engineer-2.png',
   },
   {
     name: '',
     role: 'AI Engineer',
     focus: 'Crafts data-driven, production-ready AI solutions.',
-    image: '/Images/team/engineer-3.jpg',
+    image: '/Images/team/engineer-3.png',
   },
 ];
