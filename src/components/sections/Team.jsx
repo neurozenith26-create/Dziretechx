@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Linkedin, Sparkles } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 import { SectionHeading } from '../ui/SectionHeading';
 import { GlassCard, GradientBorderCard } from '../ui/GlassCard';
 import { FloatingOrbs } from '../animations/FloatingOrbs';
@@ -22,16 +22,6 @@ const Avatar = ({ src, alt, className }) => (
       className="w-full h-full rounded-full object-cover bg-surface-light-100 dark:bg-surface-dark-200"
     />
   </div>
-);
-
-const SocialIcon = () => (
-  <a
-    href="#"
-    aria-label="LinkedIn profile"
-    className="inline-flex items-center justify-center w-9 h-9 rounded-full text-gray-400 dark:text-gray-500 hover:text-white hover:bg-brand-500 transition-colors"
-  >
-    <Linkedin className="w-4 h-4" />
-  </a>
 );
 
 // Grid member card — built on the shared GlassCard for a consistent look.
@@ -60,9 +50,6 @@ const TeamCard = ({ member }) => (
       <p className="mt-3 text-xs sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed flex-1">
         {member.focus}
       </p>
-      <div className="mt-5">
-        <SocialIcon />
-      </div>
     </GlassCard>
   </motion.div>
 );
