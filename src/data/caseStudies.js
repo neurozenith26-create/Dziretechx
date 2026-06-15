@@ -14,20 +14,6 @@ export const caseStudies = [
     icon: 'Factory'
   },
   {
-    id: 2,
-    title: 'AI-Driven Legal Automation',
-    industry: 'Legal',
-    problem: 'A major regional law firm faced inefficiencies in routing client matters to the appropriate panel lawyers and preparing case-ready documentation. Manual intake, research, and drafting resulted in slow turnaround.',
-    solution: 'An AI-driven automation workflow was implemented that interprets client issues, recommends the right lawyers, generates customized draft documents, and automatically surfaces relevant historical cases.',
-    metrics: [
-      { value: 55, suffix: '%', label: 'Reduction in manual drafting' },
-      { value: 45, suffix: '%', label: 'Accuracy increase' },
-      { value: 45, suffix: '%', label: 'Improved client routing' }
-    ],
-    color: 'purple',
-    icon: 'Scale'
-  },
-  {
     id: 3,
     title: 'End-to-End Integrated System',
     industry: 'Power Sector',
