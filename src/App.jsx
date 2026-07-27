@@ -7,7 +7,6 @@ import { Hero } from './components/sections/Hero';
 import { About } from './components/sections/About';
 import { MissionVision } from './components/sections/MissionVision';
 import { Capabilities } from './components/sections/Capabilities';
-import { Products } from './components/sections/Products';
 import { CaseStudies } from './components/sections/CaseStudies';
 import { WhyDzireTechx } from './components/sections/WhyDzireTechx';
 import { Team } from './components/sections/Team';
@@ -29,7 +28,6 @@ const MainSite = () => {
         <About />
         <MissionVision />
         <Capabilities />
-        <Products />
         <CaseStudies />
         <WhyDzireTechx />
         <Team />
