@@ -15,13 +15,13 @@ const ProductCard = ({ product }) => {
         padding="none"
         className="group h-full flex flex-col overflow-hidden border border-gray-200/50 dark:border-white/10"
       >
-        {/* Landing-page screenshot */}
-        <div className="relative aspect-video overflow-hidden bg-surface-light-200 dark:bg-surface-dark-200">
+        {/* Landing-page screenshot — large & prominent */}
+        <div className="relative aspect-[16/10] overflow-hidden bg-surface-light-200 dark:bg-surface-dark-200">
           <img
             src={product.image}
             alt={`${product.name} preview`}
             loading="lazy"
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
           />
           {/* Subtle gradient for legibility */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent pointer-events-none" />
@@ -50,14 +50,14 @@ const ProductCard = ({ product }) => {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             className={cn(
-              'mt-6 inline-flex items-center justify-center gap-2 w-full',
+              'mt-6 inline-flex items-center justify-center gap-2 w-full whitespace-nowrap',
               'px-6 py-3 text-base font-medium rounded-xl transition-all duration-300',
               'bg-brand-500 hover:bg-brand-600 text-white',
               'shadow-lg shadow-brand-500/25 hover:shadow-brand-500/40'
             )}
           >
-            Use it
-            <ExternalLink className="w-5 h-5" />
+            View it
+            <ExternalLink className="w-5 h-5 flex-shrink-0" />
           </motion.a>
         </div>
       </GlassCard>
@@ -80,7 +80,7 @@ export const Products = () => {
         <SectionHeading
           subtitle="Our Products"
           title="Products We've Built"
-          description="Explore our live products — tap “Use it” to open any of them."
+          description="Explore our live products — tap “View it” to open any of them."
         />
 
         <motion.div
@@ -89,11 +89,11 @@ export const Products = () => {
           whileInView="visible"
           viewport={{ once: true, margin: '-100px' }}
           className={cn(
-            'grid gap-6 items-stretch',
-            'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
-            // Center the grid when there are only one or two products
-            products.length === 1 && 'max-w-md mx-auto',
-            products.length === 2 && 'sm:max-w-3xl sm:mx-auto'
+            'grid gap-6 lg:gap-8 items-stretch',
+            // Max 2 cards per row so each card is wide and the screenshot
+            // stays big and eye-catching.
+            products.length === 1 && 'grid-cols-1 max-w-xl mx-auto',
+            products.length >= 2 && 'grid-cols-1 sm:grid-cols-2 max-w-5xl mx-auto'
           )}
         >
           {products.map((product) => (
