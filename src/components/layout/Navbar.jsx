@@ -9,6 +9,7 @@ import { companyInfo } from '../../data/companyInfo';
 const navLinks = [
   { name: 'About', href: '#about' },
   { name: 'Services', href: '#capabilities' },
+  { name: 'Our Products', href: '#products' },
   { name: 'Case Studies', href: '#case-studies' },
   { name: 'Why Us', href: '#why-us' },
   { name: 'Our Team', href: '#team' },
