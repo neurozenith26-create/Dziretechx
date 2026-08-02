@@ -278,7 +278,10 @@ export const CaseStudies = () => {
               visibleCount === 3 && 'grid-cols-3'
             )}
           >
-            <AnimatePresence mode="wait">
+            {/* Default (sync) mode: this renders up to 3 cards at once, and
+                mode="wait" only supports a single child — it warned in console
+                and never sequenced the way it looked like it should. */}
+            <AnimatePresence>
               {getVisibleStudies().map((study) => (
                 <CaseStudyCard key={study.uniqueKey} study={study} isActive={true} />
               ))}

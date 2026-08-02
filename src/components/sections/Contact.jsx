@@ -1,5 +1,8 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, lazy } from 'react';
 import { motion } from 'framer-motion';
+import { Lazy3D } from '../three/Lazy3D';
+import { ContactFallback } from '../three/Fallbacks';
+import { useTheme } from '../../context/ThemeContext';
 import { Send, User, Mail, Building2, MessageSquare, CheckCircle2, Loader2, AlertCircle } from 'lucide-react';
 import { SectionHeading } from '../ui/SectionHeading';
 import { GradientBorderCard } from '../ui/GlassCard';
@@ -8,7 +11,6 @@ import { cn } from '../../utils/cn';
 import { fadeInUp, fadeInLeft, fadeInRight, staggerContainer } from '../../utils/animations';
 import { companyInfo } from '../../data/companyInfo';
 import { DotsPattern } from '../illustrations';
-import { submitContactForm } from '../../lib/supabase';
 
 // Google Apps Script URL for email notifications
 const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzOASXUFleM-mXyKmDZ4QPn15JPWmZOOp7MuGzqfh6gO45VdUy_No5Td8YoZg7l4H5swA/exec';
@@ -93,7 +95,11 @@ const TextAreaField = ({ icon: Icon, label, placeholder, value, onChange, error,
   </div>
 );
 
+const ContactShape = lazy(() => import('../three/scenes/ContactShape'));
+
 export const Contact = () => {
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -127,6 +133,10 @@ export const Contact = () => {
     setSubmitError('');
 
     try {
+      // The Supabase client is ~35 kB gzip and is only needed the moment
+      // someone actually submits. Importing it here keeps it off the critical
+      // path for every visitor who never touches the form.
+      const { submitContactForm } = await import('../../lib/supabase');
       const { data, error } = await submitContactForm(formData);
 
       if (error) {
@@ -168,6 +178,12 @@ export const Contact = () => {
     <section id="contact" className="relative section-padding overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-b from-surface-light-100 dark:from-surface-dark-100 to-transparent" />
+
+      {/* One slow-rotating abstract solid. Offset to the side and
+          pointer-events-none, so it never sits under or blocks the form. */}
+      <Lazy3D fallback={<ContactFallback />}>
+        <ContactShape isDark={isDark} />
+      </Lazy3D>
 
       {/* Decorative Dots Pattern */}
       <div className="absolute top-0 right-0 w-96 h-96 opacity-30 pointer-events-none">

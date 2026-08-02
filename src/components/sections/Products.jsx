@@ -1,5 +1,9 @@
+import { lazy } from 'react';
 import { motion } from 'framer-motion';
 import { ExternalLink } from 'lucide-react';
+import { Lazy3D } from '../three/Lazy3D';
+import { ProductsFallback } from '../three/Fallbacks';
+import { useTheme } from '../../context/ThemeContext';
 import { SectionHeading } from '../ui/SectionHeading';
 import { GlassCard } from '../ui/GlassCard';
 import { cn } from '../../utils/cn';
@@ -65,7 +69,12 @@ const ProductCard = ({ product }) => {
   );
 };
 
+const ProductsGlobe = lazy(() => import('../three/scenes/ProductsGlobe'));
+
 export const Products = () => {
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
+
   if (!products || products.length === 0) return null;
 
   return (
@@ -75,6 +84,11 @@ export const Products = () => {
     >
       {/* Background Gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-brand-500/5 to-transparent pointer-events-none" />
+
+      {/* Rotating wireframe globe — the cloud network metaphor. */}
+      <Lazy3D fallback={<ProductsFallback />}>
+        <ProductsGlobe isDark={isDark} />
+      </Lazy3D>
 
       <div className="container-custom relative">
         <SectionHeading
