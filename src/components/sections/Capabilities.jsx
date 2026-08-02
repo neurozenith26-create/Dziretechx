@@ -1,5 +1,9 @@
+import { lazy } from 'react';
 import { motion } from 'framer-motion';
 import { Cloud, Brain, Cpu, RefreshCcw, ChevronRight } from 'lucide-react';
+import { Lazy3D } from '../three/Lazy3D';
+import { ServicesFallback } from '../three/Fallbacks';
+import { useTheme } from '../../context/ThemeContext';
 import { SectionHeading } from '../ui/SectionHeading';
 import { GlassCard } from '../ui/GlassCard';
 import { cn } from '../../utils/cn';
@@ -10,6 +14,8 @@ import { CloudIcon, AIBrainIcon, AgentIcon, EnterpriseIcon } from '../illustrati
 // Decorative background, rendered at 8-15% opacity behind the AI Strategy card,
 // so it can be downscaled hard with no visible difference. Source is 2816x1536.
 import aiBrainImage from '../../assets/ai-brain.png?w=640&format=webp';
+
+const ServicesShapes = lazy(() => import('../three/scenes/ServicesShapes'));
 
 const iconMap = {
   Cloud,
@@ -159,8 +165,16 @@ const CapabilityCard = ({ capability, index }) => {
 };
 
 export const Capabilities = () => {
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
+
   return (
     <section id="capabilities" className="relative section-padding overflow-hidden">
+      {/* One shared canvas for the whole grid — never one per card. */}
+      <Lazy3D fallback={<ServicesFallback />}>
+        <ServicesShapes isDark={isDark} />
+      </Lazy3D>
+
       {/* Background Grid Pattern */}
       <div className="absolute inset-0 pointer-events-none">
         <div

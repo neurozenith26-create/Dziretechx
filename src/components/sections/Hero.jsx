@@ -1,7 +1,13 @@
+import { lazy } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronRight } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { ParticleField } from '../animations/ParticleField';
+import { Lazy3D } from '../three/Lazy3D';
+import { HeroFallback } from '../three/Fallbacks';
+import { useTheme } from '../../context/ThemeContext';
+
+const HeroConstellation = lazy(() => import('../three/scenes/HeroConstellation'));
 import { cn } from '../../utils/cn';
 import { scrollTo } from '../../lib/scroll';
 import { fadeInUp, staggerContainer, scaleIn } from '../../utils/animations';
@@ -31,12 +37,15 @@ const AnimatedWord = ({ children, index }) => (
 );
 
 export const Hero = () => {
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
   const headlineWords = ['Innovating', 'the', 'Future'];
   const sublineWords = ['with', 'Cloud', '&', 'AI'];
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-surface-dark">
-      {/* Particle Background */}
+    <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-surface-dark">
+      {/* Particle Background — kept as the base layer and as the mobile /
+          reduced-motion fallback for the 3D constellation above it. */}
       <ParticleField
         particleCount={200}
         colors={['#1E5FBB', '#00D4FF', '#8B5CF6']}
@@ -44,6 +53,12 @@ export const Hero = () => {
         mouseRadius={180}
         speed={0.4}
       />
+
+      {/* 3D constellation — depth-layered nodes with travelling arcs. Only
+          mounts on capable devices; three.js is never downloaded otherwise. */}
+      <Lazy3D fallback={<HeroFallback />}>
+        <HeroConstellation isDark={isDark} />
+      </Lazy3D>
 
       {/* Gradient Overlays */}
       <div className="absolute inset-0 bg-gradient-to-b from-surface-dark/50 via-transparent to-surface-dark pointer-events-none" />

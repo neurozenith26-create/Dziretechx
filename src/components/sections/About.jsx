@@ -1,5 +1,8 @@
+import { lazy } from 'react';
 import { motion } from 'framer-motion';
 import { Cloud, Brain, Sparkles } from 'lucide-react';
+import { Lazy3D } from '../three/Lazy3D';
+import { AboutFallback } from '../three/Fallbacks';
 import { SectionHeading } from '../ui/SectionHeading';
 import { GlassCard } from '../ui/GlassCard';
 import { FloatingOrbs } from '../animations/FloatingOrbs';
@@ -13,6 +16,8 @@ import { useTheme } from '../../context/ThemeContext';
 import teamImage from '../../assets/team-collaboration.png?w=1024&format=webp';
 import teamImageSrcSet from '../../assets/team-collaboration.png?w=400;640;1024&format=webp&as=srcset';
 
+const AboutMesh = lazy(() => import('../three/scenes/AboutMesh'));
+
 export const About = () => {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
@@ -21,6 +26,11 @@ export const About = () => {
     <section id="about" className="relative section-padding overflow-hidden">
       {/* Background */}
       <FloatingOrbs variant="minimal" />
+
+      {/* Ambient cyan -> violet gradient mesh */}
+      <Lazy3D fallback={<AboutFallback />}>
+        <AboutMesh isDark={isDark} />
+      </Lazy3D>
 
       {/* Diagonal Line Decoration */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">

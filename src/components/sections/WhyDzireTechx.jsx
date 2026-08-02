@@ -1,5 +1,9 @@
+import { lazy } from 'react';
 import { motion } from 'framer-motion';
 import { Briefcase, Lightbulb, Settings, GitMerge, CheckCircle2 } from 'lucide-react';
+import { Lazy3D } from '../three/Lazy3D';
+import { WhyUsFallback } from '../three/Fallbacks';
+import { useTheme } from '../../context/ThemeContext';
 import { SectionHeading } from '../ui/SectionHeading';
 import { GlassCard, GradientBorderCard } from '../ui/GlassCard';
 import { cn } from '../../utils/cn';
@@ -65,9 +69,19 @@ const WhyUsCard = ({ item, index }) => {
   );
 };
 
+const DriftField = lazy(() => import('../three/scenes/DriftField'));
+
 export const WhyDzireTechx = () => {
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
+
   return (
     <section id="why-us" className="relative section-padding overflow-hidden">
+      {/* Faint particle drift — understated, this section is copy-dense. */}
+      <Lazy3D fallback={<WhyUsFallback />}>
+        <DriftField isDark={isDark} />
+      </Lazy3D>
+
       {/* Background Server Growth Image - Desktop Only */}
       <div className="absolute inset-0 hidden lg:flex items-center justify-center pointer-events-none overflow-hidden">
         <motion.div
