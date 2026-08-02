@@ -15,6 +15,7 @@ export const ParticleField = ({
   const particlesRef = useRef([]);
   const mouseRef = useRef({ x: null, y: null });
   const animationRef = useRef(null);
+  const visibleRef = useRef(true);
   const { theme } = useTheme();
   const isDark = theme === 'dark';
 
@@ -87,6 +88,14 @@ export const ParticleField = ({
     };
 
     const animate = () => {
+      // Skip all work while the hero is off-screen. This loop used to run for
+      // the entire life of the page — including the whole way down the site —
+      // doing an O(n^2) neighbour pass every frame for a canvas nobody could see.
+      if (!visibleRef.current) {
+        animationRef.current = requestAnimationFrame(animate);
+        return;
+      }
+
       ctx.clearRect(0, 0, width, height);
       const particles = particlesRef.current;
       const mouse = mouseRef.current;
@@ -155,12 +164,23 @@ export const ParticleField = ({
       animationRef.current = requestAnimationFrame(animate);
     };
 
+    // Pause the loop whenever the canvas leaves the viewport.
+    let io;
+    if (typeof IntersectionObserver !== 'undefined') {
+      io = new IntersectionObserver(
+        ([entry]) => { visibleRef.current = entry.isIntersecting; },
+        { rootMargin: '100px' }
+      );
+      io.observe(canvas);
+    }
+
     canvas.addEventListener('mousemove', handleMouseMove);
     canvas.addEventListener('mouseleave', handleMouseLeave);
     window.addEventListener('resize', handleResize);
     animate();
 
     return () => {
+      io?.disconnect();
       canvas.removeEventListener('mousemove', handleMouseMove);
       canvas.removeEventListener('mouseleave', handleMouseLeave);
       window.removeEventListener('resize', handleResize);
