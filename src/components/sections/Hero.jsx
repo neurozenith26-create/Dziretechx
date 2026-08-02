@@ -6,6 +6,7 @@ import { ParticleField } from '../animations/ParticleField';
 import { Lazy3D } from '../three/Lazy3D';
 import { HeroFallback } from '../three/Fallbacks';
 import { useTheme } from '../../context/ThemeContext';
+import { useCapability } from '../../hooks/useCapability';
 
 import { LazyVideo } from '../ui/LazyVideo';
 // First frame of the hero video, shown until the media is fetched after load.
@@ -42,21 +43,27 @@ const AnimatedWord = ({ children, index }) => (
 
 export const Hero = () => {
   const { theme } = useTheme();
+  const { canRender3D } = useCapability();
   const isDark = theme === 'dark';
   const headlineWords = ['Innovating', 'the', 'Future'];
   const sublineWords = ['with', 'Cloud', '&', 'AI'];
 
   return (
     <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-surface-dark">
-      {/* Particle Background — kept as the base layer and as the mobile /
-          reduced-motion fallback for the 3D constellation above it. */}
-      <ParticleField
-        particleCount={200}
-        colors={['#1E5FBB', '#00D4FF', '#8B5CF6']}
-        connectionDistance={120}
-        mouseRadius={180}
-        speed={0.4}
-      />
+      {/* The 2D field and the 3D constellation draw the same thing, so only one
+          runs. ParticleField does an O(n^2) neighbour pass — ~20,000 distance
+          checks per frame at 200 particles — and running it underneath the
+          WebGL scene was the main cause of scroll jank on desktop. It stays as
+          the mobile / reduced-motion fallback, where no 3D exists. */}
+      {!canRender3D && (
+        <ParticleField
+          particleCount={200}
+          colors={['#1E5FBB', '#00D4FF', '#8B5CF6']}
+          connectionDistance={120}
+          mouseRadius={180}
+          speed={0.4}
+        />
+      )}
 
       {/* 3D constellation — depth-layered nodes with travelling arcs. Only
           mounts on capable devices; three.js is never downloaded otherwise. */}

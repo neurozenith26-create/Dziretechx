@@ -56,10 +56,17 @@ export const SceneCanvas = ({
     )
     io.observe(el)
 
+    // rAF-throttled. Calling getBoundingClientRect directly in a scroll handler
+    // forces a synchronous layout on every scroll event, and with several
+    // scenes mounted that layout thrash was a major source of scroll jank.
+    let ticking = false
     const onScroll = () => {
-      const r = el.getBoundingClientRect()
-      const visible = r.bottom > -200 && r.top < window.innerHeight + 200
-      if (visible) measure()
+      if (ticking) return
+      ticking = true
+      requestAnimationFrame(() => {
+        ticking = false
+        measure()
+      })
     }
     window.addEventListener('scroll', onScroll, { passive: true })
 
@@ -82,7 +89,10 @@ export const SceneCanvas = ({
       {isActive && (
         <Canvas
           frameloop={inView ? 'always' : 'never'}
-          dpr={[1, 1.5]}
+          // 1.5 -> 1.25 is a ~30% cut in fragments shaded per frame. These are
+          // soft wireframes and additive points, so the difference is not
+          // visible, but it buys real headroom while scrolling.
+          dpr={[1, 1.25]}
           camera={camera}
           gl={{
             alpha: true,
