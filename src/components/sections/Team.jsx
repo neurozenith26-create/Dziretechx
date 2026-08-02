@@ -6,6 +6,7 @@ import { FloatingOrbs } from '../animations/FloatingOrbs';
 import { cn } from '../../utils/cn';
 import { fadeInUp, staggerContainer } from '../../utils/animations';
 import { teamFounder, teamRoles } from '../../data/companyInfo';
+import { useNearViewport } from '../../hooks/useNearViewport';
 
 // ── Geometry for the orbit ──────────────────────────────────────────────
 const SIZE = 520;
@@ -59,8 +60,10 @@ const RoleCard = ({ role }) => (
 );
 
 export const Team = () => {
+  const [sectionRef, near] = useNearViewport();
+
   return (
-    <section id="team" className="relative section-padding overflow-hidden">
+    <section ref={sectionRef} id="team" className="relative section-padding overflow-hidden">
       <FloatingOrbs variant="minimal" />
 
       <div className="container-custom relative">
@@ -80,8 +83,8 @@ export const Team = () => {
             {/* Spinning layer: web + orbiting nodes */}
             <motion.div
               className="absolute inset-0"
-              animate={{ rotate: 360 }}
-              transition={{ duration: ROTATE_DURATION, repeat: Infinity, ease: 'linear' }}
+              animate={near ? { rotate: 360 } : { rotate: 0 }}
+              transition={near ? { duration: ROTATE_DURATION, repeat: Infinity, ease: 'linear' } : { duration: 0 }}
             >
               {/* Spider-web connecting lines */}
               <svg viewBox={`0 0 ${SIZE} ${SIZE}`} className="absolute inset-0 w-full h-full">
@@ -129,8 +132,8 @@ export const Team = () => {
                     r="3.5"
                     fill="#00D4FF"
                     initial={{ cx: CENTER, cy: CENTER }}
-                    animate={{ cx: [CENTER, CENTER + p.x], cy: [CENTER, CENTER + p.y] }}
-                    transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut', delay: i * 0.6 }}
+                    animate={near ? { cx: [CENTER, CENTER + p.x], cy: [CENTER, CENTER + p.y] } : { cx: CENTER, cy: CENTER }}
+                    transition={near ? { duration: 2.5, repeat: Infinity, ease: 'easeInOut', delay: i * 0.6 } : { duration: 0 }}
                   />
                 ))}
               </svg>
@@ -143,8 +146,8 @@ export const Team = () => {
                   style={{ transform: `translate(calc(-50% + ${positions[i].x}px), calc(-50% + ${positions[i].y}px))` }}
                 >
                   <motion.div
-                    animate={{ rotate: -360 }}
-                    transition={{ duration: ROTATE_DURATION, repeat: Infinity, ease: 'linear' }}
+                    animate={near ? { rotate: -360 } : { rotate: 0 }}
+                    transition={near ? { duration: ROTATE_DURATION, repeat: Infinity, ease: 'linear' } : { duration: 0 }}
                   >
                     <OrbitNode role={role} />
                   </motion.div>
@@ -157,8 +160,8 @@ export const Team = () => {
               {/* pulsing halo */}
               <motion.div
                 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 rounded-full bg-brand-500/20 blur-2xl"
-                animate={{ scale: [1, 1.15, 1], opacity: [0.5, 0.8, 0.5] }}
-                transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+                animate={near ? { scale: [1, 1.15, 1], opacity: [0.5, 0.8, 0.5] } : { scale: 1, opacity: 0.5 }}
+                transition={near ? { duration: 3, repeat: Infinity, ease: 'easeInOut' } : { duration: 0 }}
               />
               <div className="relative flex flex-col items-center text-center">
                 <Avatar src={teamFounder.image} alt={teamFounder.name || teamFounder.role} className="w-32 h-32" />

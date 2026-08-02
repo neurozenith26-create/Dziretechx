@@ -3,10 +3,11 @@ import { Mail, Phone, MapPin, Linkedin, Twitter, ArrowUpRight } from 'lucide-rea
 import { companyInfo } from '../../data/companyInfo';
 import { cn } from '../../utils/cn';
 import { scrollTo } from '../../lib/scroll';
+import { useNearViewport } from '../../hooks/useNearViewport';
 import { fadeInUp, staggerContainer } from '../../utils/animations';
 
 // Animated floating elements for footer decoration
-const FloatingShape = ({ delay, x, y, size, color }) => (
+const FloatingShape = ({ delay, x, y, size, color, active }) => (
   <motion.div
     className="absolute rounded-full opacity-10"
     style={{
@@ -16,16 +17,8 @@ const FloatingShape = ({ delay, x, y, size, color }) => (
       height: size,
       background: `radial-gradient(circle, ${color} 0%, transparent 70%)`,
     }}
-    animate={{
-      y: [0, -15, 0],
-      scale: [1, 1.1, 1],
-    }}
-    transition={{
-      duration: 4,
-      delay,
-      repeat: Infinity,
-      ease: 'easeInOut',
-    }}
+    animate={active ? { y: [0, -15, 0], scale: [1, 1.1, 1] } : { y: 0, scale: 1 }}
+    transition={active ? { duration: 4, delay, repeat: Infinity, ease: 'easeInOut' } : { duration: 0 }}
   />
 );
 
@@ -45,12 +38,14 @@ const footerLinks = {
 };
 
 export const Footer = () => {
+  const [footerRef, near] = useNearViewport();
+
   const scrollToSection = (href) => {
     scrollTo(href);
   };
 
   return (
-    <footer className="relative bg-surface-light-100 dark:bg-surface-dark overflow-hidden">
+    <footer ref={footerRef} className="relative bg-surface-light-100 dark:bg-surface-dark overflow-hidden">
       {/* Background Wave */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <svg
@@ -66,10 +61,10 @@ export const Footer = () => {
         </svg>
 
         {/* Floating Decorative Shapes */}
-        <FloatingShape delay={0} x="10%" y="20%" size={80} color="#1E5FBB" />
-        <FloatingShape delay={1} x="85%" y="30%" size={60} color="#00D4FF" />
-        <FloatingShape delay={2} x="70%" y="60%" size={40} color="#8B5CF6" />
-        <FloatingShape delay={0.5} x="25%" y="70%" size={50} color="#10B981" />
+        <FloatingShape delay={0} x="10%" y="20%" size={80} color="#1E5FBB" active={near} />
+        <FloatingShape delay={1} x="85%" y="30%" size={60} color="#00D4FF" active={near} />
+        <FloatingShape delay={2} x="70%" y="60%" size={40} color="#8B5CF6" active={near} />
+        <FloatingShape delay={0.5} x="25%" y="70%" size={50} color="#10B981" active={near} />
       </div>
 
       <div className="relative container-custom">

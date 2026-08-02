@@ -4,13 +4,14 @@ import { GradientBorderCard } from '../ui/GlassCard';
 import { cn } from '../../utils/cn';
 import { fadeInUp, fadeInLeft, fadeInRight, staggerContainer, scaleIn } from '../../utils/animations';
 import { missionVision } from '../../data/companyInfo';
+import { useNearViewport } from '../../hooks/useNearViewport';
 
-const OrbitalRing = ({ delay = 0, size = 300, duration = 20 }) => (
+const OrbitalRing = ({ delay = 0, size = 300, duration = 20, active = true }) => (
   <motion.div
     className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-brand-500/20"
     style={{ width: size, height: size }}
-    animate={{ rotate: 360 }}
-    transition={{ duration, delay, repeat: Infinity, ease: 'linear' }}
+    animate={active ? { rotate: 360 } : { rotate: 0 }}
+    transition={active ? { duration, delay, repeat: Infinity, ease: 'linear' } : { duration: 0 }}
   >
     <motion.div
       className="absolute w-3 h-3 bg-brand-500 rounded-full shadow-glow"
@@ -20,8 +21,10 @@ const OrbitalRing = ({ delay = 0, size = 300, duration = 20 }) => (
 );
 
 export const MissionVision = () => {
+  const [sectionRef, near] = useNearViewport();
+
   return (
-    <section className="relative section-padding overflow-hidden bg-surface-light-100 dark:bg-surface-dark-100">
+    <section ref={sectionRef} className="relative section-padding overflow-hidden bg-surface-light-100 dark:bg-surface-dark-100">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-[0.02] dark:opacity-[0.05] pointer-events-none">
         <div
@@ -54,26 +57,20 @@ export const MissionVision = () => {
         <div className="relative">
           {/* Central Orbital Animation */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl aspect-square hidden lg:block">
-            <OrbitalRing size={400} duration={25} delay={0} />
-            <OrbitalRing size={300} duration={20} delay={2} />
-            <OrbitalRing size={200} duration={15} delay={4} />
+            <OrbitalRing size={400} duration={25} delay={0} active={near} />
+            <OrbitalRing size={300} duration={20} delay={2} active={near} />
+            <OrbitalRing size={200} duration={15} delay={4} active={near} />
 
             {/* Center Pulse */}
             <motion.div
               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-brand-500 rounded-full"
-              animate={{
-                scale: [1, 1.5, 1],
-                opacity: [1, 0.5, 1],
-              }}
-              transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+              animate={near ? { scale: [1, 1.5, 1], opacity: [1, 0.5, 1] } : { scale: 1, opacity: 1 }}
+              transition={near ? { duration: 2, repeat: Infinity, ease: 'easeInOut' } : { duration: 0 }}
             />
             <motion.div
               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 border-2 border-brand-500/50 rounded-full"
-              animate={{
-                scale: [1, 2, 1],
-                opacity: [0.5, 0, 0.5],
-              }}
-              transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+              animate={near ? { scale: [1, 2, 1], opacity: [0.5, 0, 0.5] } : { scale: 1, opacity: 0.5 }}
+              transition={near ? { duration: 2, repeat: Infinity, ease: 'easeInOut' } : { duration: 0 }}
             />
           </div>
 
