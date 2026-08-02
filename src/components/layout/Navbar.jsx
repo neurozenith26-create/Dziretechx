@@ -90,8 +90,16 @@ export const Navbar = () => {
                   />
                 </svg>
               </div>
-              <span className="text-lg sm:text-xl font-display font-bold text-gray-900 dark:text-white">
-                Dzire <span className="text-brand-500">Techx</span>
+              {/* The hero is dark navy in BOTH themes, so while the bar is
+                  transparent the wordmark must stay light or it renders
+                  dark-on-dark and is unreadable in light mode. */}
+              <span
+                className={cn(
+                  'text-lg sm:text-xl font-display font-bold transition-colors',
+                  isScrolled ? 'text-gray-900 dark:text-white' : 'text-white'
+                )}
+              >
+                Dzire <span className="text-brand-400">Techx</span>
               </span>
             </motion.a>
 
@@ -103,8 +111,11 @@ export const Navbar = () => {
                   onClick={() => scrollToSection(link.href)}
                   className={cn(
                     'px-3 xl:px-4 py-2 text-sm font-medium rounded-lg transition-colors whitespace-nowrap',
-                    'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white',
-                    'hover:bg-gray-100 dark:hover:bg-surface-dark-200'
+                    // Same reason as the wordmark: light text while over the
+                    // dark hero, theme-aware once the bar has a background.
+                    isScrolled
+                      ? 'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-surface-dark-200'
+                      : 'text-gray-200 hover:text-white hover:bg-white/10'
                   )}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
@@ -133,7 +144,12 @@ export const Navbar = () => {
               <ThemeToggle />
               <motion.button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-surface-dark-200"
+                className={cn(
+                  'p-2 rounded-lg transition-colors',
+                  isScrolled
+                    ? 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-surface-dark-200'
+                    : 'text-gray-200 hover:bg-white/10'
+                )}
                 whileTap={{ scale: 0.95 }}
                 aria-label="Toggle menu"
               >
