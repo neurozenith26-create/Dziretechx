@@ -3,23 +3,16 @@ import { ArrowRight, Sparkles } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { cn } from '../../utils/cn';
 import { scrollTo } from '../../lib/scroll';
+import { useNearViewport } from '../../hooks/useNearViewport';
 import { fadeInUp, staggerContainer, scaleIn } from '../../utils/animations';
 
-const FlowingParticle = ({ delay, startX, duration }) => (
+const FlowingParticle = ({ delay, startX, duration, active }) => (
   <motion.div
     className="absolute w-1 h-1 bg-white/50 rounded-full"
     style={{ left: startX }}
     initial={{ y: '100%', opacity: 0 }}
-    animate={{
-      y: '-100%',
-      opacity: [0, 1, 1, 0],
-    }}
-    transition={{
-      duration,
-      delay,
-      repeat: Infinity,
-      ease: 'linear',
-    }}
+    animate={active ? { y: '-100%', opacity: [0, 1, 1, 0] } : { opacity: 0 }}
+    transition={active ? { duration, delay, repeat: Infinity, ease: 'linear' } : { duration: 0 }}
   />
 );
 
@@ -32,6 +25,7 @@ const seeded = (i, salt) => {
 };
 
 export const CallToAction = () => {
+  const [sectionRef, near] = useNearViewport();
   const particles = Array.from({ length: 30 }, (_, i) => ({
     delay: seeded(i, 1) * 5,
     startX: `${seeded(i, 2) * 100}%`,
@@ -39,7 +33,7 @@ export const CallToAction = () => {
   }));
 
   return (
-    <section className="relative py-24 md:py-32 overflow-hidden">
+    <section ref={sectionRef} className="relative py-24 md:py-32 overflow-hidden">
       {/* Background Gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-brand-900 via-brand-800 to-brand-950" />
 
@@ -60,7 +54,7 @@ export const CallToAction = () => {
       {/* Flowing Particles */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {particles.map((particle, index) => (
-          <FlowingParticle key={index} {...particle} />
+          <FlowingParticle key={index} {...particle} active={near} />
         ))}
       </div>
 

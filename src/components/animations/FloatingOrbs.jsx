@@ -1,8 +1,9 @@
 import { motion } from 'framer-motion';
 import { cn } from '../../utils/cn';
 import { useTheme } from '../../context/ThemeContext';
+import { useNearViewport } from '../../hooks/useNearViewport';
 
-const Orb = ({ size, color, lightColor, delay, duration, x, y, blur, lightBlur, isDark }) => (
+const Orb = ({ size, color, lightColor, delay, duration, x, y, blur, lightBlur, isDark, active }) => (
   <motion.div
     className={cn('absolute rounded-full', isDark ? color : lightColor)}
     style={{
@@ -11,24 +12,29 @@ const Orb = ({ size, color, lightColor, delay, duration, x, y, blur, lightBlur, 
       left: x,
       top: y,
       filter: `blur(${isDark ? blur : lightBlur}px)`,
+      // Promote to its own layer so the (expensive) blur is rasterised once and
+      // the animation is a pure GPU transform. Without this the browser
+      // re-rasterises a large blurred surface on every frame.
+      willChange: active ? 'transform' : 'auto',
     }}
-    animate={{
-      y: [0, -30, 0],
-      x: [0, 15, 0],
-      scale: [1, 1.1, 1],
-    }}
-    transition={{
-      duration,
-      delay,
-      repeat: Infinity,
-      ease: 'easeInOut',
-    }}
+    animate={
+      active
+        ? { y: [0, -30, 0], x: [0, 15, 0], scale: [1, 1.1, 1] }
+        : { y: 0, x: 0, scale: 1 }
+    }
+    transition={
+      active
+        ? { duration, delay, repeat: Infinity, ease: 'easeInOut' }
+        : { duration: 0 }
+    }
   />
 );
 
 export const FloatingOrbs = ({ className, variant = 'default' }) => {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
+  // Only animate while the section is on screen.
+  const [ref, near] = useNearViewport();
 
   // Theme-aware orb configs - lighter/more subtle for light mode
   const orbConfigs = {
@@ -54,9 +60,12 @@ export const FloatingOrbs = ({ className, variant = 'default' }) => {
   const orbs = orbConfigs[variant] || orbConfigs.default;
 
   return (
-    <div className={cn('absolute inset-0 overflow-hidden pointer-events-none', className)}>
+    <div
+      ref={ref}
+      className={cn('absolute inset-0 overflow-hidden pointer-events-none', className)}
+    >
       {orbs.map((orb, index) => (
-        <Orb key={index} {...orb} isDark={isDark} />
+        <Orb key={index} {...orb} isDark={isDark} active={near} />
       ))}
     </div>
   );
