@@ -11,7 +11,6 @@ import { cn } from '../../utils/cn';
 import { fadeInUp, fadeInLeft, fadeInRight, staggerContainer } from '../../utils/animations';
 import { companyInfo } from '../../data/companyInfo';
 import { DotsPattern } from '../illustrations';
-import { submitContactForm } from '../../lib/supabase';
 
 // Google Apps Script URL for email notifications
 const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzOASXUFleM-mXyKmDZ4QPn15JPWmZOOp7MuGzqfh6gO45VdUy_No5Td8YoZg7l4H5swA/exec';
@@ -134,6 +133,10 @@ export const Contact = () => {
     setSubmitError('');
 
     try {
+      // The Supabase client is ~35 kB gzip and is only needed the moment
+      // someone actually submits. Importing it here keeps it off the critical
+      // path for every visitor who never touches the form.
+      const { submitContactForm } = await import('../../lib/supabase');
       const { data, error } = await submitContactForm(formData);
 
       if (error) {

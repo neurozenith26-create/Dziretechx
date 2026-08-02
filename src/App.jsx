@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Navbar } from './components/layout/Navbar';
@@ -13,8 +13,10 @@ import { WhyDzireTechx } from './components/sections/WhyDzireTechx';
 import { Team } from './components/sections/Team';
 import { CallToAction } from './components/sections/CallToAction';
 import { Contact } from './components/sections/Contact';
-import { Login } from './admin/pages/Login';
-import { Dashboard } from './admin/pages/Dashboard';
+// Admin is lazy: it pulls in the Supabase client, which is dead weight on the
+// marketing page and was the bulk of the "unused JavaScript" Lighthouse flagged.
+const Login = lazy(() => import('./admin/pages/Login').then(m => ({ default: m.Login })));
+const Dashboard = lazy(() => import('./admin/pages/Dashboard').then(m => ({ default: m.Dashboard })));
 import { SmoothScroll } from './components/SmoothScroll';
 import { scrollToTop as scrollToTopHelper } from './lib/scroll';
 
@@ -109,9 +111,24 @@ export const AppRoutes = () => (
     {/* Main Website */}
     <Route path="/" element={<MainSite />} />
 
-    {/* Admin Routes */}
-    <Route path="/admin" element={<Login />} />
-    <Route path="/admin/dashboard" element={<Dashboard />} />
+    {/* Admin Routes — Suspense placeholder matches the admin page background
+        so there is no white flash while the chunk loads. */}
+    <Route
+      path="/admin"
+      element={
+        <Suspense fallback={<div className="min-h-screen bg-gray-900" />}>
+          <Login />
+        </Suspense>
+      }
+    />
+    <Route
+      path="/admin/dashboard"
+      element={
+        <Suspense fallback={<div className="min-h-screen bg-gray-900" />}>
+          <Dashboard />
+        </Suspense>
+      }
+    />
   </Routes>
 );
 

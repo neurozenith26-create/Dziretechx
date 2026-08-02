@@ -7,6 +7,10 @@ import { Lazy3D } from '../three/Lazy3D';
 import { HeroFallback } from '../three/Fallbacks';
 import { useTheme } from '../../context/ThemeContext';
 
+import { LazyVideo } from '../ui/LazyVideo';
+// First frame of the hero video, shown until the media is fetched after load.
+import heroPoster from '../../assets/hero-video-poster.webp?w=960&format=webp';
+
 const HeroConstellation = lazy(() => import('../three/scenes/HeroConstellation'));
 import { cn } from '../../utils/cn';
 import { scrollTo } from '../../lib/scroll';
@@ -90,19 +94,13 @@ export const Hero = () => {
               the wrapper is given a wider aspect than the 16:9 source and the
               video overflows the bottom edge. Full width is preserved — nothing
               is lost from the logo, headline or cloud artwork. */}
-          <div
-            className="relative overflow-hidden rounded-xl shadow-lg"
+          <LazyVideo
+            src={heroVideo}
+            poster={heroPoster}
+            wrapperClassName="overflow-hidden rounded-xl shadow-lg"
             style={{ aspectRatio: HERO_VIDEO_CROP_RATIO }}
-          >
-            <video
-              src={heroVideo}
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="block w-full h-auto object-cover"
-            />
-          </div>
+            className="block w-full h-auto object-cover"
+          />
         </div>
       </motion.div>
 
@@ -230,19 +228,13 @@ export const Hero = () => {
 
               <div className="relative p-2 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 shadow-xl">
                 {/* Same bottom-strip watermark crop as the desktop instance. */}
-                <div
-                  className="relative overflow-hidden rounded-xl"
+                <LazyVideo
+                  src={heroVideo}
+                  poster={heroPoster}
+                  wrapperClassName="overflow-hidden rounded-xl"
                   style={{ aspectRatio: HERO_VIDEO_CROP_RATIO }}
-                >
-                  <video
-                    src={heroVideo}
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    className="block w-full h-auto object-cover"
-                  />
-                </div>
+                  className="block w-full h-auto object-cover"
+                />
               </div>
             </div>
           </motion.div>

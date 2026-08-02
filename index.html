@@ -49,7 +49,22 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!--
+      Loaded non-blocking: the stylesheet is fetched at low priority as "print"
+      then promoted to "all" once it arrives. Google Fonts was the single
+      biggest render-blocking resource (~1.5s on mobile). display=swap already
+      guarantees text paints in a fallback face meanwhile, so nothing is hidden.
+      The <noscript> copy keeps fonts working with JS disabled.
+    -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+      media="print"
+      onload="this.media='all';this.onload=null"
+    >
+    <noscript>
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    </noscript>
 
     <script type="application/ld+json">
     {
