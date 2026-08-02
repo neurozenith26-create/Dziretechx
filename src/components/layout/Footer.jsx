@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Linkedin, Twitter, ArrowUpRight } from 'lucide-react';
 import { companyInfo } from '../../data/companyInfo';
 import { cn } from '../../utils/cn';
+import { scrollTo } from '../../lib/scroll';
 import { fadeInUp, staggerContainer } from '../../utils/animations';
 
 // Animated floating elements for footer decoration
@@ -45,10 +46,7 @@ const footerLinks = {
 
 export const Footer = () => {
   const scrollToSection = (href) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+    scrollTo(href);
   };
 
   return (
