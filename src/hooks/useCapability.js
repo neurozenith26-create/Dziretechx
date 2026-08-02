@@ -1,9 +1,21 @@
 import { useEffect, useState } from 'react'
 
+// ---------------------------------------------------------------------------
+// Master switch for all WebGL on the site.
+//
+// Set to false and every 3D scene falls back to its CSS gradient — three.js is
+// never downloaded and no WebGL context is ever created. Nothing else needs to
+// change; the fallbacks are already what mobile and reduced-motion users see.
+//
+// Flip this if the site ever feels heavy on lower-powered hardware.
+// ---------------------------------------------------------------------------
+export const ENABLE_3D = true
+
 // Single gate every 3D component must pass through. Returns false during SSR and
 // on the first client paint, so nothing WebGL-related can run before we know the
 // device can handle it. Components render their static fallback until this flips.
 const detect = () => {
+  if (!ENABLE_3D) return false
   if (typeof window === 'undefined') return false
 
   // Respect the OS-level motion preference above everything else.

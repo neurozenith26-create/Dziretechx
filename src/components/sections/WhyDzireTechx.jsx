@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { Briefcase, Lightbulb, Settings, GitMerge, CheckCircle2 } from 'lucide-react';
 import { WhyUsFallback } from '../three/Fallbacks';
 import { useTheme } from '../../context/ThemeContext';
+import { useNearViewport } from '../../hooks/useNearViewport';
 import { SectionHeading } from '../ui/SectionHeading';
 import { GlassCard, GradientBorderCard } from '../ui/GlassCard';
 import { cn } from '../../utils/cn';
@@ -70,9 +71,11 @@ const WhyUsCard = ({ item, index }) => {
 export const WhyDzireTechx = () => {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
+  // Decorative loops below only tick while this section is on screen.
+  const [sectionRef, near] = useNearViewport();
 
   return (
-    <section id="why-us" className="relative section-padding overflow-hidden">
+    <section ref={sectionRef} id="why-us" className="relative section-padding overflow-hidden">
       {/* Static ambient wash. This section already runs four infinitely
           rotating concentric rings plus an orbiting hub in framer-motion, so a
           WebGL particle drift on top was the wrong place to spend frames. */}
@@ -111,8 +114,8 @@ export const WhyDzireTechx = () => {
               width: `${ring * 250}px`,
               height: `${ring * 250}px`,
             }}
-            animate={{ rotate: ring % 2 === 0 ? 360 : -360 }}
-            transition={{ duration: 60 + ring * 10, repeat: Infinity, ease: 'linear' }}
+            animate={near ? { rotate: ring % 2 === 0 ? 360 : -360 } : { rotate: 0 }}
+            transition={near ? { duration: 60 + ring * 10, repeat: Infinity, ease: 'linear' } : { duration: 0 }}
           />
         ))}
       </div>
@@ -146,8 +149,8 @@ export const WhyDzireTechx = () => {
               {/* Outer Ring */}
               <motion.div
                 className="w-48 h-48 rounded-full border-2 border-dashed border-brand-500/30 flex items-center justify-center"
-                animate={{ rotate: 360 }}
-                transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
+                animate={near ? { rotate: 360 } : { rotate: 0 }}
+                transition={near ? { duration: 30, repeat: Infinity, ease: 'linear' } : { duration: 0 }}
               >
                 {/* Orbiting Dots */}
                 {[0, 90, 180, 270].map((angle) => (
@@ -165,10 +168,8 @@ export const WhyDzireTechx = () => {
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
                 <motion.div
                   className="w-32 h-32 rounded-full bg-gradient-to-br from-brand-500 to-accent-cyan flex items-center justify-center shadow-glow"
-                  animate={{
-                    scale: [1, 1.05, 1],
-                  }}
-                  transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+                  animate={near ? { scale: [1, 1.05, 1] } : { scale: 1 }}
+                  transition={near ? { duration: 3, repeat: Infinity, ease: 'easeInOut' } : { duration: 0 }}
                 >
                   <div className="text-center text-white">
                     <div className="text-3xl font-display font-bold">Why</div>
@@ -180,11 +181,8 @@ export const WhyDzireTechx = () => {
               {/* Pulse Effect */}
               <motion.div
                 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 rounded-full border-2 border-brand-500/50"
-                animate={{
-                  scale: [1, 1.5, 1],
-                  opacity: [0.5, 0, 0.5],
-                }}
-                transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+                animate={near ? { scale: [1, 1.5, 1], opacity: [0.5, 0, 0.5] } : { scale: 1, opacity: 0.5 }}
+                transition={near ? { duration: 3, repeat: Infinity, ease: 'easeInOut' } : { duration: 0 }}
               />
             </div>
           </motion.div>
