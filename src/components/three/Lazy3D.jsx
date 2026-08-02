@@ -1,5 +1,6 @@
 import { Suspense } from 'react'
 import { useCapability } from '../../hooks/useCapability'
+import { ThreeErrorBoundary } from './ThreeErrorBoundary'
 
 /**
  * Gate + lazy boundary for every 3D scene.
@@ -17,7 +18,13 @@ export const Lazy3D = ({ children, fallback = null }) => {
 
   if (!canRender3D) return fallback
 
-  return <Suspense fallback={fallback}>{children}</Suspense>
+  // Boundary is outside Suspense so it catches both chunk-load failures and
+  // WebGL errors thrown once the scene is running.
+  return (
+    <ThreeErrorBoundary fallback={fallback}>
+      <Suspense fallback={fallback}>{children}</Suspense>
+    </ThreeErrorBoundary>
+  )
 }
 
 export default Lazy3D

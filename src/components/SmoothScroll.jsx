@@ -4,6 +4,7 @@ import 'lenis/dist/lenis.css'
 import { setLenis } from '../lib/scroll'
 import { gsap, ScrollTrigger } from '../lib/gsap'
 import { usePrefersReducedMotion } from '../hooks/useCapability'
+import { useTheme } from '../context/ThemeContext'
 
 /**
  * Smooth scrolling for the marketing page only — the admin routes keep native
@@ -18,6 +19,36 @@ import { usePrefersReducedMotion } from '../hooks/useCapability'
 export const SmoothScroll = ({ children }) => {
   const lenisRef = useRef(null)
   const reduced = usePrefersReducedMotion()
+  const { theme } = useTheme()
+
+  // Every ScrollTrigger caches element offsets. Anything that changes layout
+  // height after those are measured leaves triggers firing at the wrong scroll
+  // position, so recompute on the three things that actually move the page.
+  useEffect(() => {
+    // 1. Web fonts swapping in reflows every text block.
+    let cancelled = false
+    if (typeof document !== 'undefined' && document.fonts?.ready) {
+      document.fonts.ready.then(() => {
+        if (!cancelled) ScrollTrigger.refresh()
+      })
+    }
+
+    // 2. Late-loading images (all marketing images are lazy).
+    const onLoad = () => ScrollTrigger.refresh()
+    window.addEventListener('load', onLoad)
+
+    return () => {
+      cancelled = true
+      window.removeEventListener('load', onLoad)
+    }
+  }, [])
+
+  // 3. Theme toggle: colour transitions and the light/dark variants can change
+  //    rendered heights. Deferred past the 300ms CSS transition in index.css.
+  useEffect(() => {
+    const id = setTimeout(() => ScrollTrigger.refresh(), 350)
+    return () => clearTimeout(id)
+  }, [theme])
 
   useEffect(() => {
     if (reduced) return
