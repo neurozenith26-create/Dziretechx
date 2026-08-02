@@ -57,7 +57,10 @@ export const Hero = () => {
           the mobile / reduced-motion fallback, where no 3D exists. */}
       {!canRender3D && (
         <ParticleField
-          particleCount={200}
+          // 200 -> 130. The connection pass is O(n^2): 200 particles is ~19,900
+          // distance checks every frame, 130 is ~8,400 — a 58% cut for a
+          // difference that is not visible at this density.
+          particleCount={130}
           colors={['#1E5FBB', '#00D4FF', '#8B5CF6']}
           connectionDistance={120}
           mouseRadius={180}

@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react'
 //
 // Flip this if the site ever feels heavy on lower-powered hardware.
 // ---------------------------------------------------------------------------
-export const ENABLE_3D = true
+export const ENABLE_3D = false
 
 // Single gate every 3D component must pass through. Returns false during SSR and
 // on the first client paint, so nothing WebGL-related can run before we know the
