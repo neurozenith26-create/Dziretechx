@@ -6,9 +6,126 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Dzire Techx Solutions - Innovating the Future with Cloud & AI. Enterprise-grade cloud solutions and AI-driven innovations." />
     <title>Dzire Techx Solutions | Cloud & AI Innovation</title>
+
+    <link rel="canonical" href="https://www.dziretechx.com/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Dzire Techx Solutions" />
+    <meta property="og:title" content="Dzire Techx Solutions | Cloud & AI Innovation" />
+    <meta property="og:description" content="Dzire Techx Solutions - Innovating the Future with Cloud & AI. Enterprise-grade cloud solutions and AI-driven innovations." />
+    <meta property="og:url" content="https://www.dziretechx.com/" />
+    <meta property="og:locale" content="en_IN" />
+    <!-- TODO: create public/og-image.png at exactly 1200x630. No suitable asset exists in the repo today. -->
+    <meta property="og:image" content="https://www.dziretechx.com/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Dzire Techx Solutions - Innovating the Future with Cloud & AI" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Dzire Techx Solutions | Cloud & AI Innovation" />
+    <meta name="twitter:description" content="Dzire Techx Solutions - Innovating the Future with Cloud & AI. Enterprise-grade cloud solutions and AI-driven innovations." />
+    <meta name="twitter:image" content="https://www.dziretechx.com/og-image.png" />
+
+    <!--
+      Applies the saved theme before first paint. Without this, prerendered HTML
+      ships with no theme class on <html> and dark-mode visitors get a white
+      flash until React hydrates. Key must match ThemeContext.jsx.
+    -->
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem('dziretechx-theme');
+          var theme = stored
+            || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          document.documentElement.classList.remove('light', 'dark');
+          document.documentElement.classList.add(theme);
+        } catch (e) {
+          document.documentElement.classList.add('dark');
+        }
+      })();
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://www.dziretechx.com/#organization",
+          "name": "Dzire Techx Solutions Private Limited",
+          "alternateName": "Dzire Techx",
+          "url": "https://www.dziretechx.com/",
+          "logo": "https://www.dziretechx.com/logo.svg",
+          "slogan": "Innovating the Future with Cloud & AI",
+          "description": "Enterprise-grade Cloud Solutions and AI-driven innovations.",
+          "identifier": "U62091WR2026PTC294268",
+          "email": "DZ2CLOUD@GMAIL.COM",
+          "telephone": "+91-94771-18505",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "RDB Boulevard, Unit 5B, 5th Floor, Plot K1, Block EP&GP, Sec-V, Sech Bhawan, Saltlake",
+            "addressLocality": "North 24 Parganas",
+            "addressRegion": "West Bengal",
+            "postalCode": "700091",
+            "addressCountry": "IN"
+          },
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+91-94771-18505",
+            "email": "DZ2CLOUD@GMAIL.COM",
+            "contactType": "sales",
+            "areaServed": "IN",
+            "availableLanguage": ["en"]
+          }
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://www.dziretechx.com/#website",
+          "url": "https://www.dziretechx.com/",
+          "name": "Dzire Techx Solutions",
+          "publisher": { "@id": "https://www.dziretechx.com/#organization" }
+        },
+        {
+          "@type": "Service",
+          "name": "Cloud-Based Solutions",
+          "serviceType": "Cloud Consulting",
+          "description": "Design and deliver proof-of-concept demonstrations and tailored solutions that maximize the potential of cloud platforms.",
+          "provider": { "@id": "https://www.dziretechx.com/#organization" },
+          "areaServed": "Worldwide"
+        },
+        {
+          "@type": "Service",
+          "name": "AI Strategy",
+          "serviceType": "AI Consulting",
+          "description": "Design and implement AI-powered solutions to solve business problems. Translating business needs into technical strategies.",
+          "provider": { "@id": "https://www.dziretechx.com/#organization" },
+          "areaServed": "Worldwide"
+        },
+        {
+          "@type": "Service",
+          "name": "AI Implementation",
+          "serviceType": "AI Engineering",
+          "description": "Developing and deploying AI models, integrating AI and intelligent automation into existing systems.",
+          "provider": { "@id": "https://www.dziretechx.com/#organization" },
+          "areaServed": "Worldwide"
+        },
+        {
+          "@type": "Service",
+          "name": "Enterprise Modernization",
+          "serviceType": "Legacy Modernization",
+          "description": "BPM migration to Camunda and Pega platform upgrades to latest versions for modern, efficient operations.",
+          "provider": { "@id": "https://www.dziretechx.com/#organization" },
+          "areaServed": "Worldwide"
+        }
+      ]
+    }
+    </script>
   </head>
   <body>
     <div id="root"></div>

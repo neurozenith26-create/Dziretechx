@@ -22,11 +22,19 @@ const FlowingParticle = ({ delay, startX, duration }) => (
   />
 );
 
+// Deterministic pseudo-random keyed off the particle index. Math.random() at
+// render scope produces different values on the server and the client, which
+// breaks hydration once the page is prerendered. Same scattered look, stable output.
+const seeded = (i, salt) => {
+  const x = Math.sin(i * 12.9898 + salt * 78.233) * 43758.5453;
+  return x - Math.floor(x);
+};
+
 export const CallToAction = () => {
   const particles = Array.from({ length: 30 }, (_, i) => ({
-    delay: Math.random() * 5,
-    startX: `${Math.random() * 100}%`,
-    duration: 3 + Math.random() * 4,
+    delay: seeded(i, 1) * 5,
+    startX: `${seeded(i, 2) * 100}%`,
+    duration: 3 + seeded(i, 3) * 4,
   }));
 
   return (

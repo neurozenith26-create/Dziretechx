@@ -97,17 +97,24 @@ const ScrollToTop = () => {
   );
 };
 
+// Routes only, with no router attached — the client wraps these in BrowserRouter
+// and the prerender step wraps the same tree in StaticRouter, so both render
+// identical markup and hydration matches.
+export const AppRoutes = () => (
+  <Routes>
+    {/* Main Website */}
+    <Route path="/" element={<MainSite />} />
+
+    {/* Admin Routes */}
+    <Route path="/admin" element={<Login />} />
+    <Route path="/admin/dashboard" element={<Dashboard />} />
+  </Routes>
+);
+
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        {/* Main Website */}
-        <Route path="/" element={<MainSite />} />
-
-        {/* Admin Routes */}
-        <Route path="/admin" element={<Login />} />
-        <Route path="/admin/dashboard" element={<Dashboard />} />
-      </Routes>
+      <AppRoutes />
     </BrowserRouter>
   );
 }

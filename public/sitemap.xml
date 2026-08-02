@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Single-page marketing site: all sections live at / as anchors, so there is one
+  canonical URL. /admin and /admin/dashboard are auth-gated and deliberately omitted.
+  TODO: update <lastmod> at each production deploy.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://www.dziretechx.com/</loc>
+    <lastmod>2026-08-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>
