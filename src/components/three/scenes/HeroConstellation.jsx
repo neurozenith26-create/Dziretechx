@@ -9,10 +9,13 @@ const CYAN = new THREE.Color('#00D4FF')
 const VIOLET = new THREE.Color('#8B5CF6')
 const BRAND = new THREE.Color('#1E5FBB')
 
-const NODE_COUNT = 150
-const MAX_LINK_DIST = 3.1
-const MAX_LINKS = 320
-const PULSE_COUNT = 14
+// Tuned down from 150/320/14. The link buffer is static, but every extra line
+// is still per-frame vertex work on top of Lenis and ScrollTrigger; this reads
+// the same on screen and leaves noticeably more headroom while scrolling.
+const NODE_COUNT = 95
+const MAX_LINK_DIST = 2.7
+const MAX_LINKS = 140
+const PULSE_COUNT = 8
 
 // Deterministic scatter — a fixed seed keeps the layout identical between
 // reloads and avoids Math.random() drifting the composition every visit.
@@ -120,6 +123,15 @@ function Constellation({ isDark }) {
   useFrame((state, delta) => {
     const t = state.clock.elapsedTime
     const p = progress.current
+
+    // Past ~92% of the hero exit the scene is essentially invisible. Skipping
+    // the per-frame work there means the constellation stops costing anything
+    // for the rest of the page instead of animating behind an opacity of 0.02.
+    if (p > 0.92) {
+      if (group.current) group.current.visible = false
+      return
+    }
+    if (group.current) group.current.visible = true
 
     if (group.current) {
       // Mouse parallax, eased. Kept small so it reads as depth, not wobble.

@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react'
 import { ReactLenis } from 'lenis/react'
 import 'lenis/dist/lenis.css'
 import { setLenis } from '../lib/scroll'
-import { gsap, ScrollTrigger } from '../lib/gsap'
+import { ScrollTrigger } from '../lib/gsap'
 import { usePrefersReducedMotion } from '../hooks/useCapability'
 import { useTheme } from '../context/ThemeContext'
 
@@ -53,23 +53,35 @@ export const SmoothScroll = ({ children }) => {
   useEffect(() => {
     if (reduced) return
 
-    const lenis = lenisRef.current?.lenis
-    if (!lenis) return
+    // Lenis runs its own RAF (autoRaf default). Driving it from gsap.ticker
+    // instead saves one loop, but couples scrolling to this effect succeeding:
+    // lenisRef.current is null on the first mount, the effect bailed early, the
+    // ticker was never attached, and with autoRaf disabled Lenis never stepped
+    // — the page could not be scrolled at all. Never make scrolling depend on
+    // an effect landing in the right order.
+    let cancelled = false
+    let frame
 
-    setLenis(lenis)
-    lenis.on('scroll', ScrollTrigger.update)
+    const attach = () => {
+      if (cancelled) return
+      const lenis = lenisRef.current?.lenis
+      if (!lenis) {
+        // Ref not populated yet — try again next frame rather than giving up.
+        frame = requestAnimationFrame(attach)
+        return
+      }
+      setLenis(lenis)
+      lenis.on('scroll', ScrollTrigger.update)
+      ScrollTrigger.refresh()
+    }
 
-    // Drive Lenis from GSAP's ticker so both run on one RAF loop rather than
-    // two competing ones.
-    const raf = (time) => lenis.raf(time * 1000)
-    gsap.ticker.add(raf)
-    gsap.ticker.lagSmoothing(0)
-
-    ScrollTrigger.refresh()
+    attach()
 
     return () => {
-      lenis.off('scroll', ScrollTrigger.update)
-      gsap.ticker.remove(raf)
+      cancelled = true
+      if (frame) cancelAnimationFrame(frame)
+      const lenis = lenisRef.current?.lenis
+      if (lenis) lenis.off('scroll', ScrollTrigger.update)
       setLenis(null)
     }
   }, [reduced])
@@ -82,8 +94,18 @@ export const SmoothScroll = ({ children }) => {
     <ReactLenis
       root
       ref={lenisRef}
-      // autoRaf off because GSAP's ticker drives it above.
-      options={{ lerp: 0.1, smoothWheel: true, touchMultiplier: 1.5, autoRaf: false }}
+      // autoRaf left ON deliberately: Lenis must be able to scroll the page on
+      // its own, independent of any effect wiring up correctly.
+      // lerp 0.1 trails the wheel far enough behind the cursor that it reads as
+      // input lag rather than smoothing. 0.16 still glides but tracks input.
+      // Touch is left native (syncTouch off) — hijacking it on phones is the
+      // classic cause of "the page feels stuck".
+      options={{
+        lerp: 0.16,
+        smoothWheel: true,
+        touchMultiplier: 1.5,
+        syncTouch: false,
+      }}
     >
       {children}
     </ReactLenis>

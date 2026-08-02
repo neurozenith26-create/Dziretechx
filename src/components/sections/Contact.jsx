@@ -1,6 +1,5 @@
-import { useState, useRef, lazy } from 'react';
+import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { Lazy3D } from '../three/Lazy3D';
 import { ContactFallback } from '../three/Fallbacks';
 import { useTheme } from '../../context/ThemeContext';
 import { Send, User, Mail, Building2, MessageSquare, CheckCircle2, Loader2, AlertCircle } from 'lucide-react';
@@ -95,8 +94,6 @@ const TextAreaField = ({ icon: Icon, label, placeholder, value, onChange, error,
   </div>
 );
 
-const ContactShape = lazy(() => import('../three/scenes/ContactShape'));
-
 export const Contact = () => {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
@@ -179,11 +176,9 @@ export const Contact = () => {
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-b from-surface-light-100 dark:from-surface-dark-100 to-transparent" />
 
-      {/* One slow-rotating abstract solid. Offset to the side and
-          pointer-events-none, so it never sits under or blocks the form. */}
-      <Lazy3D fallback={<ContactFallback />}>
-        <ContactShape isDark={isDark} />
-      </Lazy3D>
+      {/* Static ambient wash. Nothing should compete for frames while someone
+          is typing into the form. */}
+      <ContactFallback />
 
       {/* Decorative Dots Pattern */}
       <div className="absolute top-0 right-0 w-96 h-96 opacity-30 pointer-events-none">
