@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Auth-gated admin area — no public content to index.
+Disallow: /admin
+Disallow: /admin/dashboard
+
+Sitemap: https://www.dziretechx.com/sitemap.xml

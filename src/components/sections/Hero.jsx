@@ -1,13 +1,29 @@
+import { lazy } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronRight } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { ParticleField } from '../animations/ParticleField';
+import { Lazy3D } from '../three/Lazy3D';
+import { HeroFallback } from '../three/Fallbacks';
+import { useTheme } from '../../context/ThemeContext';
+
+import { LazyVideo } from '../ui/LazyVideo';
+// First frame of the hero video, shown until the media is fetched after load.
+import heroPoster from '../../assets/hero-video-poster.webp?w=960&format=webp';
+
+const HeroConstellation = lazy(() => import('../three/scenes/HeroConstellation'));
 import { cn } from '../../utils/cn';
+import { scrollTo } from '../../lib/scroll';
 import { fadeInUp, staggerContainer, scaleIn } from '../../utils/animations';
 import { companyInfo } from '../../data/companyInfo';
 
 // Hero video path (served from public folder)
 const heroVideo = '/Images/Video_Generation_Successful.mp4';
+
+// Source video is 16:9 with a generator watermark in the bottom strip. Giving
+// the wrapper a wider ratio clips that strip off while keeping the full frame
+// width, so no artwork or text is cropped. 16/9 / 0.88 => bottom 12% removed.
+const HERO_VIDEO_CROP_RATIO = (16 / 9 / 0.88).toFixed(4);
 
 const AnimatedWord = ({ children, index }) => (
   <motion.span
@@ -25,12 +41,15 @@ const AnimatedWord = ({ children, index }) => (
 );
 
 export const Hero = () => {
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
   const headlineWords = ['Innovating', 'the', 'Future'];
   const sublineWords = ['with', 'Cloud', '&', 'AI'];
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-surface-dark">
-      {/* Particle Background */}
+    <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-surface-dark">
+      {/* Particle Background — kept as the base layer and as the mobile /
+          reduced-motion fallback for the 3D constellation above it. */}
       <ParticleField
         particleCount={200}
         colors={['#1E5FBB', '#00D4FF', '#8B5CF6']}
@@ -38,6 +57,12 @@ export const Hero = () => {
         mouseRadius={180}
         speed={0.4}
       />
+
+      {/* 3D constellation — depth-layered nodes with travelling arcs. Only
+          mounts on capable devices; three.js is never downloaded otherwise. */}
+      <Lazy3D fallback={<HeroFallback />}>
+        <HeroConstellation isDark={isDark} />
+      </Lazy3D>
 
       {/* Gradient Overlays */}
       <div className="absolute inset-0 bg-gradient-to-b from-surface-dark/50 via-transparent to-surface-dark pointer-events-none" />
@@ -65,13 +90,16 @@ export const Hero = () => {
           {/* Glow effect behind image */}
           <div className="absolute -inset-4 bg-gradient-to-r from-brand-500/20 via-accent-cyan/20 to-accent-purple/20 rounded-3xl blur-2xl opacity-60" />
 
-          <video
+          {/* The generator watermark sits in the bottom strip of the frame, so
+              the wrapper is given a wider aspect than the 16:9 source and the
+              video overflows the bottom edge. Full width is preserved — nothing
+              is lost from the logo, headline or cloud artwork. */}
+          <LazyVideo
             src={heroVideo}
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="relative w-full h-auto object-cover rounded-xl shadow-lg"
+            poster={heroPoster}
+            wrapperClassName="overflow-hidden rounded-xl shadow-lg"
+            style={{ aspectRatio: HERO_VIDEO_CROP_RATIO }}
+            className="block w-full h-auto object-cover"
           />
         </div>
       </motion.div>
@@ -173,7 +201,7 @@ export const Hero = () => {
             <Button
               variant="glow"
               size="lg"
-              onClick={() => document.querySelector('#capabilities')?.scrollIntoView({ behavior: 'smooth' })}
+              onClick={() => scrollTo('#capabilities')}
               icon={ChevronRight}
               iconPosition="right"
             >
@@ -182,7 +210,7 @@ export const Hero = () => {
             <Button
               variant="outline"
               size="lg"
-              onClick={() => document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' })}
+              onClick={() => scrollTo('#contact')}
               className="border-white/20 text-white hover:bg-white/10 hover:border-white/30"
             >
               Contact Us
@@ -199,13 +227,13 @@ export const Hero = () => {
               <div className="absolute -inset-4 bg-gradient-to-r from-brand-500/20 via-accent-cyan/20 to-accent-purple/20 rounded-3xl blur-2xl opacity-50" />
 
               <div className="relative p-2 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 shadow-xl">
-                <video
+                {/* Same bottom-strip watermark crop as the desktop instance. */}
+                <LazyVideo
                   src={heroVideo}
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  className="w-full h-auto object-cover rounded-xl"
+                  poster={heroPoster}
+                  wrapperClassName="overflow-hidden rounded-xl"
+                  style={{ aspectRatio: HERO_VIDEO_CROP_RATIO }}
+                  className="block w-full h-auto object-cover"
                 />
               </div>
             </div>

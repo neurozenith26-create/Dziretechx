@@ -1,13 +1,18 @@
+import { lazy } from 'react';
 import { motion } from 'framer-motion';
 import { Briefcase, Lightbulb, Settings, GitMerge, CheckCircle2 } from 'lucide-react';
+import { Lazy3D } from '../three/Lazy3D';
+import { WhyUsFallback } from '../three/Fallbacks';
+import { useTheme } from '../../context/ThemeContext';
 import { SectionHeading } from '../ui/SectionHeading';
 import { GlassCard, GradientBorderCard } from '../ui/GlassCard';
 import { cn } from '../../utils/cn';
 import { fadeInUp, staggerContainer, scaleIn } from '../../utils/animations';
 import { whyUsData } from '../../data/companyInfo';
 
-// Server growth image path (served from public folder)
-const serverGrowthImage = '/Images/Gemini_Generated_Image_kd95urkd95urkd95 (1).png';
+// Decorative background, rendered at 600px wide, 6-10% opacity and blurred 1px,
+// so a small WebP is indistinguishable. Source is 2816x1536.
+import serverGrowthImage from '../../assets/server-growth.png?w=768&format=webp';
 
 const iconMap = {
   Briefcase,
@@ -64,9 +69,19 @@ const WhyUsCard = ({ item, index }) => {
   );
 };
 
+const DriftField = lazy(() => import('../three/scenes/DriftField'));
+
 export const WhyDzireTechx = () => {
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
+
   return (
     <section id="why-us" className="relative section-padding overflow-hidden">
+      {/* Faint particle drift — understated, this section is copy-dense. */}
+      <Lazy3D fallback={<WhyUsFallback />}>
+        <DriftField isDark={isDark} />
+      </Lazy3D>
+
       {/* Background Server Growth Image - Desktop Only */}
       <div className="absolute inset-0 hidden lg:flex items-center justify-center pointer-events-none overflow-hidden">
         <motion.div
@@ -79,6 +94,8 @@ export const WhyDzireTechx = () => {
           <img
             src={serverGrowthImage}
             alt=""
+            loading="lazy"
+            decoding="async"
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-auto object-contain opacity-[0.06] dark:opacity-[0.1] blur-[1px]"
           />
           {/* Radial fade overlay */}
