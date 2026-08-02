@@ -8,8 +8,10 @@ import { fadeInUp, fadeInLeft, fadeInRight, staggerContainer } from '../../utils
 import { aboutContent } from '../../data/companyInfo';
 import { useTheme } from '../../context/ThemeContext';
 
-// Team image path (served from public folder)
-const teamImage = '/Images/Gemini_Generated_Image_d4upyzd4upyzd4up (2).png';
+// Source is 2816x1536; this renders at max-w-lg (512px), so 1024px covers 2x
+// displays. Resized and re-encoded to WebP at build time by vite-imagetools.
+import teamImage from '../../assets/team-collaboration.png?w=1024&format=webp';
+import teamImageSrcSet from '../../assets/team-collaboration.png?w=400;640;1024&format=webp&as=srcset';
 
 export const About = () => {
   const { theme } = useTheme();
@@ -60,8 +62,13 @@ export const About = () => {
               <div className="relative p-2 rounded-2xl bg-white/10 dark:bg-white/5 backdrop-blur-sm border border-gray-200/50 dark:border-white/10 shadow-xl overflow-hidden">
                 <img
                   src={teamImage}
+                  srcSet={teamImageSrcSet}
+                  sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 512px"
+                  width={1024}
+                  height={559}
                   alt="Dzire Techx team collaboration and expertise"
                   loading="lazy"
+                  decoding="async"
                   className="w-full h-auto max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg object-cover rounded-xl"
                 />
 

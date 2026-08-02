@@ -9,6 +9,11 @@ import { companyInfo } from '../../data/companyInfo';
 // Hero video path (served from public folder)
 const heroVideo = '/Images/Video_Generation_Successful.mp4';
 
+// Source video is 16:9 with a generator watermark in the bottom strip. Giving
+// the wrapper a wider ratio clips that strip off while keeping the full frame
+// width, so no artwork or text is cropped. 16/9 / 0.88 => bottom 12% removed.
+const HERO_VIDEO_CROP_RATIO = (16 / 9 / 0.88).toFixed(4);
+
 const AnimatedWord = ({ children, index }) => (
   <motion.span
     className="inline-block"
@@ -65,14 +70,23 @@ export const Hero = () => {
           {/* Glow effect behind image */}
           <div className="absolute -inset-4 bg-gradient-to-r from-brand-500/20 via-accent-cyan/20 to-accent-purple/20 rounded-3xl blur-2xl opacity-60" />
 
-          <video
-            src={heroVideo}
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="relative w-full h-auto object-cover rounded-xl shadow-lg"
-          />
+          {/* The generator watermark sits in the bottom strip of the frame, so
+              the wrapper is given a wider aspect than the 16:9 source and the
+              video overflows the bottom edge. Full width is preserved — nothing
+              is lost from the logo, headline or cloud artwork. */}
+          <div
+            className="relative overflow-hidden rounded-xl shadow-lg"
+            style={{ aspectRatio: HERO_VIDEO_CROP_RATIO }}
+          >
+            <video
+              src={heroVideo}
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="block w-full h-auto object-cover"
+            />
+          </div>
         </div>
       </motion.div>
 
@@ -199,14 +213,20 @@ export const Hero = () => {
               <div className="absolute -inset-4 bg-gradient-to-r from-brand-500/20 via-accent-cyan/20 to-accent-purple/20 rounded-3xl blur-2xl opacity-50" />
 
               <div className="relative p-2 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 shadow-xl">
-                <video
-                  src={heroVideo}
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  className="w-full h-auto object-cover rounded-xl"
-                />
+                {/* Same bottom-strip watermark crop as the desktop instance. */}
+                <div
+                  className="relative overflow-hidden rounded-xl"
+                  style={{ aspectRatio: HERO_VIDEO_CROP_RATIO }}
+                >
+                  <video
+                    src={heroVideo}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="block w-full h-auto object-cover"
+                  />
+                </div>
               </div>
             </div>
           </motion.div>

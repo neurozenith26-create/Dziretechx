@@ -7,8 +7,9 @@ import { fadeInUp, staggerContainer, cardReveal } from '../../utils/animations';
 import { capabilities } from '../../data/capabilities';
 import { CloudIcon, AIBrainIcon, AgentIcon, EnterpriseIcon } from '../illustrations';
 
-// AI Brain image path (served from public folder)
-const aiBrainImage = '/Images/Gemini_Generated_Image_kd95urkd95urkd95.png';
+// Decorative background, rendered at 8-15% opacity behind the AI Strategy card,
+// so it can be downscaled hard with no visible difference. Source is 2816x1536.
+import aiBrainImage from '../../assets/ai-brain.png?w=640&format=webp';
 
 const iconMap = {
   Cloud,
@@ -94,6 +95,8 @@ const CapabilityCard = ({ capability, index }) => {
               <img
                 src={aiBrainImage}
                 alt=""
+                loading="lazy"
+                decoding="async"
                 className="absolute top-0 right-0 w-full h-full object-cover opacity-[0.08] group-hover:opacity-[0.15] transition-opacity duration-500"
               />
               <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-white dark:to-surface-dark-100" />
