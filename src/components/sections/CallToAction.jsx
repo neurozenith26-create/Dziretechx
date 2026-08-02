@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { cn } from '../../utils/cn';
+import { scrollTo } from '../../lib/scroll';
 import { fadeInUp, staggerContainer, scaleIn } from '../../utils/animations';
 
 const FlowingParticle = ({ delay, startX, duration }) => (
@@ -122,7 +123,7 @@ export const CallToAction = () => {
                 size="xl"
                 variant="primary"
                 className="bg-white text-brand-900 hover:bg-white/90 shadow-xl shadow-white/10"
-                onClick={() => document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' })}
+                onClick={() => scrollTo('#contact')}
                 icon={ArrowRight}
                 iconPosition="right"
               >

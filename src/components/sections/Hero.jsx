@@ -3,6 +3,7 @@ import { ChevronRight } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { ParticleField } from '../animations/ParticleField';
 import { cn } from '../../utils/cn';
+import { scrollTo } from '../../lib/scroll';
 import { fadeInUp, staggerContainer, scaleIn } from '../../utils/animations';
 import { companyInfo } from '../../data/companyInfo';
 
@@ -187,7 +188,7 @@ export const Hero = () => {
             <Button
               variant="glow"
               size="lg"
-              onClick={() => document.querySelector('#capabilities')?.scrollIntoView({ behavior: 'smooth' })}
+              onClick={() => scrollTo('#capabilities')}
               icon={ChevronRight}
               iconPosition="right"
             >
@@ -196,7 +197,7 @@ export const Hero = () => {
             <Button
               variant="outline"
               size="lg"
-              onClick={() => document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' })}
+              onClick={() => scrollTo('#contact')}
               className="border-white/20 text-white hover:bg-white/10 hover:border-white/30"
             >
               Contact Us

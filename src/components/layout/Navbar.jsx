@@ -4,6 +4,7 @@ import { Menu, X, ChevronRight } from 'lucide-react';
 import { ThemeToggle } from '../ui/ThemeToggle';
 import { Button } from '../ui/Button';
 import { cn } from '../../utils/cn';
+import { scrollTo } from '../../lib/scroll';
 import { companyInfo } from '../../data/companyInfo';
 
 const navLinks = [
@@ -30,10 +31,9 @@ export const Navbar = () => {
 
   const scrollToSection = (href) => {
     setIsMobileMenuOpen(false);
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+    // Routed through lib/scroll so Lenis handles it; falls back to native
+    // scrollIntoView when Lenis isn't mounted.
+    scrollTo(href);
   };
 
   return (

@@ -15,34 +15,40 @@ import { CallToAction } from './components/sections/CallToAction';
 import { Contact } from './components/sections/Contact';
 import { Login } from './admin/pages/Login';
 import { Dashboard } from './admin/pages/Dashboard';
+import { SmoothScroll } from './components/SmoothScroll';
+import { scrollToTop as scrollToTopHelper } from './lib/scroll';
 
 // Main Website Component
 const MainSite = () => {
   return (
-    <div className="relative min-h-screen bg-surface-light dark:bg-surface-dark transition-colors duration-300">
-      {/* Navigation */}
-      <Navbar />
+    // SmoothScroll wraps the marketing page only — the admin routes keep native
+    // scrolling so the submissions table and modal behave normally.
+    <SmoothScroll>
+      <div className="relative min-h-screen bg-surface-light dark:bg-surface-dark transition-colors duration-300">
+        {/* Navigation */}
+        <Navbar />
 
-      {/* Main Content */}
-      <main>
-        <Hero />
-        <About />
-        <MissionVision />
-        <Capabilities />
-        <Products />
-        <CaseStudies />
-        <WhyDzireTechx />
-        <Team />
-        <CallToAction />
-        <Contact />
-      </main>
+        {/* Main Content */}
+        <main>
+          <Hero />
+          <About />
+          <MissionVision />
+          <Capabilities />
+          <Products />
+          <CaseStudies />
+          <WhyDzireTechx />
+          <Team />
+          <CallToAction />
+          <Contact />
+        </main>
 
-      {/* Footer */}
-      <Footer />
+        {/* Footer */}
+        <Footer />
 
-      {/* Scroll to Top Button (appears after scrolling) */}
-      <ScrollToTop />
-    </div>
+        {/* Scroll to Top Button (appears after scrolling) */}
+        <ScrollToTop />
+      </div>
+    </SmoothScroll>
   );
 };
 
@@ -60,10 +66,8 @@ const ScrollToTop = () => {
   }, []);
 
   const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
+    // Native window.scrollTo fights the Lenis RAF loop; route through lib/scroll.
+    scrollToTopHelper();
   };
 
   return (
