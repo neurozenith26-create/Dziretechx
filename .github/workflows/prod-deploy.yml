@@ -1,0 +1,141 @@
+name: Prod Deployment
+
+# Manual gate for production.
+#
+# Merging to main does NOT publish the site. Netlify's automatic build on push
+# is turned off; the only thing that publishes dziretechx.com is someone with
+# write access running this workflow by hand and typing the confirmation.
+#
+# Run it from:  Actions -> Prod Deployment -> Run workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version, e.g. v1.2.0'
+        required: true
+        type: string
+      release_notes:
+        description: 'What is in this release (shown on the tag)'
+        required: false
+        type: string
+        default: ''
+      confirm:
+        description: 'Type DEPLOY to publish to dziretechx.com'
+        required: true
+        type: string
+
+# Two deploys must never run at once — the second would race the first.
+concurrency:
+  group: prod-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Build, tag and publish
+    runs-on: ubuntu-latest
+
+    # Optional second gate. Create an Environment called "production" in
+    # Settings -> Environments and add yourself as a required reviewer, and this
+    # job will pause for your approval before running. See docs/HANDOVER.md.
+    environment: production
+
+    steps:
+      - name: Check the confirmation text
+        run: |
+          if [ "${{ github.event.inputs.confirm }}" != "DEPLOY" ]; then
+            echo "::error::Confirmation failed — you typed '${{ github.event.inputs.confirm }}', expected 'DEPLOY'. Nothing was published."
+            exit 1
+          fi
+          echo "Confirmed by @${{ github.actor }}"
+
+      - name: Check this is running from main
+        run: |
+          if [ "${{ github.ref_name }}" != "main" ]; then
+            echo "::error::Production deploys must run from main. This run used '${{ github.ref_name }}'. Re-run and pick main in the branch dropdown."
+            exit 1
+          fi
+
+      - name: Check the version looks like a version
+        run: |
+          if ! echo "${{ github.event.inputs.version }}" | grep -qE '^v[0-9]+\.[0-9]+\.[0-9]+$'; then
+            echo "::error::Version '${{ github.event.inputs.version }}' is not in the form v1.2.3."
+            exit 1
+          fi
+
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Refuse to reuse an existing version
+        run: |
+          if git rev-parse "${{ github.event.inputs.version }}" >/dev/null 2>&1; then
+            echo "::error::Tag ${{ github.event.inputs.version }} already exists. Pick a new version number."
+            exit 1
+          fi
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        # This is a gate, not the deploy. Netlify runs its own build. Building
+        # here first means a broken commit fails the workflow instead of
+        # reaching the live site.
+        run: npm run build
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+
+      - name: Confirm the build produced a prerendered page
+        # Guards the SEO fix: if prerender.js silently stopped injecting markup,
+        # index.html collapses to a near-empty shell. Catch that here.
+        run: |
+          SIZE=$(wc -c < dist/index.html)
+          echo "dist/index.html is ${SIZE} bytes"
+          if [ "$SIZE" -lt 50000 ]; then
+            echo "::error::index.html is only ${SIZE} bytes — prerendering did not run. Refusing to publish an unindexable page."
+            exit 1
+          fi
+
+      - name: Tag the release
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          NOTES="${{ github.event.inputs.release_notes }}"
+          if [ -z "$NOTES" ]; then NOTES="Released by @${{ github.actor }}"; fi
+          git tag -a "${{ github.event.inputs.version }}" -m "$NOTES"
+          git push origin "${{ github.event.inputs.version }}"
+
+      - name: Publish to Netlify
+        run: |
+          if [ -z "${{ secrets.NETLIFY_BUILD_HOOK }}" ]; then
+            echo "::error::NETLIFY_BUILD_HOOK secret is not set. See docs/HANDOVER.md for how to create it."
+            exit 1
+          fi
+          CODE=$(curl -sS -o /dev/null -w '%{http_code}' -X POST -d '{}' "${{ secrets.NETLIFY_BUILD_HOOK }}")
+          echo "Netlify build hook responded with HTTP $CODE"
+          if [ "$CODE" != "200" ] && [ "$CODE" != "201" ]; then
+            echo "::error::Netlify did not accept the build trigger (HTTP $CODE)."
+            exit 1
+          fi
+
+      - name: Summary
+        run: |
+          {
+            echo "## Deployed to production"
+            echo ""
+            echo "| | |"
+            echo "|---|---|"
+            echo "| Version | \`${{ github.event.inputs.version }}\` |"
+            echo "| Commit | \`${{ github.sha }}\` |"
+            echo "| Released by | @${{ github.actor }} |"
+            echo "| Site | https://dziretechx.com |"
+            echo ""
+            echo "Netlify is building now. Watch it finish in the Netlify dashboard."
+            echo "To roll back: Netlify -> Deploys -> pick the previous deploy -> Publish deploy."
+          } >> $GITHUB_STEP_SUMMARY
