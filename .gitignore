@@ -3,6 +3,8 @@ node_modules/
 *.pdf
 nul
 dist/
+# Internal handover / onboarding notes. Local only — deliberately not pushed.
+docs/
 .DS_Store
 .env
 .env.local
