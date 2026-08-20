@@ -30,6 +30,12 @@ concurrency:
   group: prod-deploy
   cancel-in-progress: false
 
+# GitHub hands workflows a read-only token by default, which is the right
+# default. This job needs to push a release tag, so it asks for the one extra
+# permission it actually uses and nothing more.
+permissions:
+  contents: write
+
 jobs:
   deploy:
     name: Build, tag and publish
