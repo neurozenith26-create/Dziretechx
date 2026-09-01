@@ -9,8 +9,12 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
+  /* The marketing page is art-directed dark (see styles/site.css) and the admin
+     screens paint their own dark surface, so the document base is dark in both
+     themes. This is what stops a white flash between first paint and the point
+     where React adds the page class. */
   body {
-    @apply bg-surface-light dark:bg-surface-dark text-gray-900 dark:text-gray-100 font-sans;
+    @apply bg-surface-dark text-gray-100 font-sans;
     transition: background-color 0.3s ease, color 0.3s ease;
   }
 

@@ -72,11 +72,16 @@ export const whyUsData = [
 // Easiest: drop the files into public/Images/team/ and point image to
 // '/Images/team/<file>.png'. Add a real `name` to any card to show it above
 // the role; leave it empty to show just the role.
+// NOTE: the old founder.jpg had a transparency checkerboard baked into it and
+// rendered badly once the founder block scaled up. It is left in the repo but
+// no longer referenced; drop the replacement at the path below (prompt is in
+// docs/ui-image-prompts.md). Until it exists the designed fallback shows, so
+// nothing renders broken.
 export const teamFounder = {
   name: '',
   role: 'Founder & CEO',
   focus: 'Driving the vision and strategy behind Dzire Techx’s cloud & AI solutions.',
-  image: '/Images/team/founder.jpg',
+  image: '/Images/team/founder-portrait.png',
 };
 
 export const teamMembers = [
