@@ -5,7 +5,7 @@ export const companyInfo = {
   description: 'Enterprise-grade Cloud Solutions and AI-driven innovations',
   contact: {
     phone: '+91 94771 18505',
-    email: 'DZ2CLOUD@GMAIL.COM',
+    email: 'info@dztechx.com',
     location: 'RDB Boulevard, Unit 5B, 5th Floor, Plot K1, Block EP&GP, Sec-V, Sech Bhawan, Saltlake, North 24 Parganas - 700091, West Bengal',
     website: 'www.dziretechx.com',
   },
