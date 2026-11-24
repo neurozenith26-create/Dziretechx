@@ -91,11 +91,9 @@ jobs:
       - name: Build
         # This is a gate, not the deploy. Netlify runs its own build. Building
         # here first means a broken commit fails the workflow instead of
-        # reaching the live site.
+        # reaching the live site. Supabase settings come from the committed
+        # .env.production, the same file Netlify's build reads.
         run: npm run build
-        env:
-          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
-          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
 
       - name: Confirm the build produced a prerendered page
         # Guards the SEO fix: if prerender.js silently stopped injecting markup,
