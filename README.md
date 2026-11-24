@@ -54,8 +54,13 @@ and React Router handles it client-side.
 
 ## Environment variables
 
-Set in the Netlify UI and as GitHub Actions secrets (the prod deploy workflow
-builds with them too), never committed. `.env` is gitignored.
+Production values live in the committed [`.env.production`](.env.production),
+which Vite reads on every production build (Netlify and the GitHub deploy
+gate). Both values are public by design: they ship in the site's JavaScript
+anyway, and access is enforced by row level security. Never put a
+`service_role` / `sb_secret_` key there. A Netlify environment variable with
+the same name overrides the file. For local development copy `.env.example` to
+`.env` (gitignored).
 
 | Variable | Purpose |
 | --- | --- |
@@ -67,7 +72,7 @@ builds with them too), never committed. `.env` is gitignored.
 > touch that project's own tables. To move to a dedicated project: run
 > [`supabase/dziretechx.sql`](supabase/dziretechx.sql) in it, add `dziretechx`
 > under Data API → Exposed schemas, copy the rows across, then change these two
-> values in Netlify and GitHub and redeploy. No code change is required.
+> values in `.env.production` and deploy. No other code change is required.
 >
 > Visitors can only add messages. Reading them in `/admin` requires a login
 > listed in `dziretechx.admins` (see the SQL file for the one-line insert);
