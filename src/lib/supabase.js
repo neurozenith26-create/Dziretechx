@@ -7,9 +7,16 @@ if (!supabaseUrl || !supabaseAnonKey) {
   console.warn('Supabase credentials not found. Please add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY to your .env file.');
 }
 
+// Every DzireTechX table lives in its own `dziretechx` schema, not `public`,
+// so the site can share a Supabase project without touching that project's
+// own tables. The schema is created by supabase/dziretechx.sql and must be
+// listed under Project Settings -> Data API -> Exposed schemas.
+export const SUPABASE_SCHEMA = 'dziretechx';
+
 export const supabase = createClient(
   supabaseUrl || 'https://placeholder.supabase.co',
-  supabaseAnonKey || 'placeholder-key'
+  supabaseAnonKey || 'placeholder-key',
+  { db: { schema: SUPABASE_SCHEMA } }
 );
 
 // Auth helper functions
@@ -43,8 +50,9 @@ export const submitContactForm = async (formData) => {
         message: formData.message,
         status: 'new',
       },
-    ])
-    .select();
+    ]);
+  // No .select() here: visitors may add a message but are not allowed to read
+  // any back, including their own, so asking for the inserted row would fail.
 
   return { data, error };
 };

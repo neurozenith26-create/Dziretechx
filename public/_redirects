@@ -1,3 +1,9 @@
+# Christian Hospital Ambilikkai client demo: https://dziretechx.com/christian-hospital-ambilikkai
+# The demo runs on Cloudflare Workers and is fetched from there under this path.
+# Keep these two rules above the SPA fallback, or React Router would take the path.
+/christian-hospital-ambilikkai     https://christian-hospital.neurozenith26.workers.dev/christian-hospital-ambilikkai          200!
+/christian-hospital-ambilikkai/*   https://christian-hospital.neurozenith26.workers.dev/christian-hospital-ambilikkai/:splat   200!
+
 # Netlify SPA redirect - serve index.html for all routes
 # This allows React Router to handle client-side routing
 

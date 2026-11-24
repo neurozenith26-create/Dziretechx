@@ -54,18 +54,24 @@ and React Router handles it client-side.
 
 ## Environment variables
 
-Set in the Netlify UI, never committed. `.env` is gitignored.
+Set in the Netlify UI and as GitHub Actions secrets (the prod deploy workflow
+builds with them too), never committed. `.env` is gitignored.
 
 | Variable | Purpose |
 | --- | --- |
 | `VITE_SUPABASE_URL` | Supabase project URL |
-| `VITE_SUPABASE_ANON_KEY` | Supabase anon/public key |
+| `VITE_SUPABASE_ANON_KEY` | Supabase publishable (`sb_publishable_...`) or legacy anon key |
 
-> **The current Supabase project is a placeholder.** It belongs to a personal
-> account and is not intended for production. When a company-owned database is
-> provisioned, change these two values in Netlify and redeploy — no code change
-> is required. `src/lib/supabase.js` reads both from the environment and never
-> hardcodes them.
+> **The site currently shares another Supabase project** (`arogya-diagnostics`).
+> All DzireTechX tables live in a separate `dziretechx` schema so they never
+> touch that project's own tables. To move to a dedicated project: run
+> [`supabase/dziretechx.sql`](supabase/dziretechx.sql) in it, add `dziretechx`
+> under Data API → Exposed schemas, copy the rows across, then change these two
+> values in Netlify and GitHub and redeploy. No code change is required.
+>
+> Visitors can only add messages. Reading them in `/admin` requires a login
+> listed in `dziretechx.admins` (see the SQL file for the one-line insert);
+> being signed in alone is not enough.
 
 These feed the contact form and the `/admin` dashboard. If they are missing the
 site still builds and renders correctly, but both of those silently stop working.
