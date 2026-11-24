@@ -19,7 +19,7 @@ import {
   AlertCircle,
   Inbox
 } from 'lucide-react';
-import { supabase, signOut, getSubmissions, updateSubmissionStatus, deleteSubmission } from '../../lib/supabase';
+import { supabase, SUPABASE_SCHEMA, signOut, getSubmissions, updateSubmissionStatus, deleteSubmission } from '../../lib/supabase';
 import { cn } from '../../utils/cn';
 
 // Highlight matching text in search results
@@ -218,7 +218,7 @@ export const Dashboard = () => {
       .channel('submissions')
       .on(
         'postgres_changes',
-        { event: '*', schema: 'public', table: 'contact_submissions' },
+        { event: '*', schema: SUPABASE_SCHEMA, table: 'contact_submissions' },
         () => {
           loadSubmissions();
         }
