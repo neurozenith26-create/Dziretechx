@@ -11,6 +11,13 @@
 /products/dzarogya     https://dzarogya.netlify.app/products/dzarogya/          200!
 /products/dzarogya/*   https://dzarogya.netlify.app/products/dzarogya/:splat   200!
 
+# DZ Lead Generator: https://dziretechx.com/products/dzleadgenerator
+# Runs as its own Netlify site (dzleadgenerator.netlify.app, repo neurozenith26-create/leadgeneration-),
+# built for this sub-folder, and is fetched from there under the same path.
+# Keep these two rules above the SPA fallback, or React Router would take the path.
+/products/dzleadgenerator     https://dzleadgenerator.netlify.app/products/dzleadgenerator/          200!
+/products/dzleadgenerator/*   https://dzleadgenerator.netlify.app/products/dzleadgenerator/:splat   200!
+
 # Netlify SPA redirect - serve index.html for all routes
 # This allows React Router to handle client-side routing
 
