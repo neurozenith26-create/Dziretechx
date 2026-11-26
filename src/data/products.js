@@ -16,15 +16,24 @@
 export const products = [
   {
     id: 1,
-    name: 'Arogya Diagnostic',
+    name: 'DzArogya',
     description:
-      'A full-stack platform for a diagnostic laboratory. Patients book tests and doctor appointments online and pay securely with integrated online payments. A clean admin dashboard lets the lab configure everything — test prices, dates and availability — and track every booking, payment and appointment in real time.',
-    image: '/Images/products/arogya-diagnostic.png',
-    url: 'https://arogyadiagnostic.com/',
+      'A full-stack platform for a multispeciality clinic and diagnostic centre. Patients book specialist doctors, lab tests and home visits online and pay securely. A clean admin dashboard lets the clinic manage doctors, test prices, schedules and availability — and track every booking, payment and report in real time.',
+    image: '/Images/products/dzarogya.png',
+    url: 'https://www.dziretechx.com/products/dzarogya',
+    badge: 'Live',
+  },
+  {
+    id: 2,
+    name: 'DZ Lead Generator',
+    description:
+      'A lead-qualification tool for industrial crane sales. Sales teams screen a company in four quick steps — eligibility, classification, product requirement and company checks — and get a qualification score across 7 dimensions. Scoring runs right in the browser, and whole lists of companies can be checked at once from a CSV or Excel file.',
+    image: '/Images/products/dzleadgenerator.png',
+    url: 'https://www.dziretechx.com/products/dzleadgenerator',
     badge: 'Live',
   },
   // {
-  //   id: 2,
+  //   id: 3,
   //   name: 'Your Second Product',
   //   description: 'Short description here.',
   //   image: '/Images/products/second-product.png',

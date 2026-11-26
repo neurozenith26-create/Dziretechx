@@ -4,6 +4,13 @@
 /christian-hospital-ambilikkai     https://christian-hospital.neurozenith26.workers.dev/christian-hospital-ambilikkai          200!
 /christian-hospital-ambilikkai/*   https://christian-hospital.neurozenith26.workers.dev/christian-hospital-ambilikkai/:splat   200!
 
+# DzArogya clinic product: https://dziretechx.com/products/dzarogya
+# Runs as its own Netlify site (dzarogya.netlify.app, repo neurozenith26-create/dzarogya),
+# built for this sub-folder, and is fetched from there under the same path.
+# Keep these two rules above the SPA fallback, or React Router would take the path.
+/products/dzarogya     https://dzarogya.netlify.app/products/dzarogya/          200!
+/products/dzarogya/*   https://dzarogya.netlify.app/products/dzarogya/:splat   200!
+
 # Netlify SPA redirect - serve index.html for all routes
 # This allows React Router to handle client-side routing
 

@@ -104,10 +104,13 @@ export const Products = () => {
           viewport={{ once: true, margin: '-100px' }}
           className={cn(
             'grid gap-6 lg:gap-8 items-stretch',
-            // Max 2 cards per row so each card is wide and the screenshot
-            // stays big and eye-catching.
+            // Cards sit side by side and wrap to a new row when full:
+            // 1 product -> one centred card, 2 -> two across,
+            // 3+ -> two across on tablets, three across on desktops.
+            // Phones always show one card per row (too narrow for more).
             products.length === 1 && 'grid-cols-1 max-w-xl mx-auto',
-            products.length >= 2 && 'grid-cols-1 sm:grid-cols-2 max-w-5xl mx-auto'
+            products.length === 2 && 'grid-cols-1 sm:grid-cols-2 max-w-5xl mx-auto',
+            products.length >= 3 && 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 max-w-7xl mx-auto'
           )}
         >
           {products.map((product) => (
